@@ -114,6 +114,61 @@ app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
     }).ToList();
 });
 
+// Get Customer by id
+app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+    Customer foundC = db.Customers
+    .Include(c => c.Appointments).ThenInclude(a => a.Stylist)
+    .Include(c => c.Appointments).ThenInclude(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
+    .SingleOrDefault(c => c.Id == id);
+
+    if(foundC == null)
+    {
+        return Results.NotFound("No customer with given id");
+    }
+
+    return Results.Ok(new CustomerDTO
+    {
+        Id = foundC.Id,
+        Name = foundC.Name,
+        Email = foundC.Email,
+        Appointments = foundC.Appointments.Select(app => new AppointmentDTO
+        {
+            Id = app.Id,
+            StylistId = app.StylistId,
+            Stylist = new StylistDTO
+            {
+                Id = app.Stylist.Id,
+                Name = app.Stylist.Name,
+                Email = app.Stylist.Email,
+                Bio = app.Stylist.Bio,
+                ImgUrl = app.Stylist.ImgUrl
+            },
+            CustomerId = foundC.Id,
+            Date = app.Date,
+            AppointmentServices = app.AppointmentServices.Select(s => new AppointmentServiceDTO
+            {
+                Id = s.Id,
+                AppointmentId = s.AppointmentId,
+                ServiceId = s.ServiceId,
+                Service = new ServiceDTO
+                {
+                    Id = s.Service.Id,
+                    Name = s.Service.Name,
+                    Price = s.Service.Price
+                }
+            }).ToList()
+        }).ToList()
+    });
+    }
+
+    catch (Exception ex)
+    {
+        return Results.NotFound(ex);
+    }
+});
+
 // GET all Appointments
 app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
     return db.Appointments
@@ -167,6 +222,11 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
     .Include(a => a.Stylist)
     .Include(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
     .Single(a => a.Id == id);
+
+    if(foundA == null)
+    {
+        return Results.NotFound("No appointment with given id");
+    }
 
     return Results.Ok(new AppointmentDTO
         {
