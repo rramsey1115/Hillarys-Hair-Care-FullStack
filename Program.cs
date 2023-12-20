@@ -57,7 +57,6 @@ app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
     }).ToList();
 });
 
-
 // GET all Appointments
 app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
     return db.Appointments
@@ -101,6 +100,17 @@ app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
         }).ToList()
     }).ToList();
 });
+
+// Get all Services
+app.MapGet("/api/services", (HillarysHairCareDbContext db) => {
+    return db.Services.OrderBy(s => s.Id).Select(s => new ServiceDTO
+    {
+        Id = s.Id,
+        Name = s.Name,
+        Price = s.Price
+    }).ToList();
+});
+
 
 
 app.Run();
