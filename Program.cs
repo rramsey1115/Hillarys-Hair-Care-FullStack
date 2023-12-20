@@ -105,7 +105,6 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) => {
     }
 });
 
-
 // GET all Customers
 app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
     return db.Customers.OrderBy(c => c.Id).Select(c => new CustomerDTO
