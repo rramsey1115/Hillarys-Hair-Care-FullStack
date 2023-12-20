@@ -12,13 +12,13 @@ public class Appointment
     public int CustomerId { get; set; }
     public Customer Customer { get; set; }
     public DateTime Date { get; set; }
-    public List<Service> Services { get; set; }
+    public List<AppointmentService> AppointmentServices { get; set; }
     public decimal TotalCost
     {
         get
         {
             decimal price = 25.00M;
-            Services.Select(s => price += s.Price);
+            AppointmentServices.Select(s => price += s.Service.Price);
             return price;
         }
     }

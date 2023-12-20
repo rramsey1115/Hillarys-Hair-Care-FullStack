@@ -34,8 +34,73 @@ app.UseHttpsRedirection();
 ****************************************************************************************************
  */
 
+// GET all Stylists
+app.MapGet("/api/stylists", (HillarysHairCareDbContext db) => {
+    return db.Stylists.OrderBy(s => s.Id).Include(s => s.Appointments).Select(s => new StylistDTO
+    {
+        Id = s.Id,
+        Name = s.Name,
+        Email = s.Email,
+        ImgUrl = s.ImgUrl,
+        IsActive = s.IsActive,
+        Bio = s.Bio
+    }).ToList();
+});
+
+// GET all Customers
+app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
+    return db.Customers.OrderBy(c => c.Id).Select(c => new CustomerDTO
+    {
+        Id = c.Id,
+        Name = c.Name,
+        Email = c.Email
+    }).ToList();
+});
 
 
+// GET all Appointments
+app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
+    return db.Appointments
+    .OrderBy(app => app.Date)
+    .Include(app => app.Customer)
+    .Include(app => app.Stylist)
+    .Include(app => app.AppointmentServices).ThenInclude(aserv => aserv.Service)
+    .Select(app => new AppointmentDTO
+    {
+        Id = app.Id,
+        StylistId = app.StylistId,
+        Stylist = new StylistDTO
+        {
+            Id = app.Stylist.Id,
+            Name = app.Stylist.Name,
+            Email = app.Stylist.Email,
+            ImgUrl = app.Stylist.ImgUrl,
+            Bio = app.Stylist.Bio,
+            IsActive = app.Stylist.IsActive
+        },
+        CustomerId = app.CustomerId,
+        Customer = new CustomerDTO
+        {
+            Id = app.Customer.Id,
+            Name = app.Customer.Name,
+            Email = app.Customer.Email
+        },
+        Date = app.Date,
+        AppointmentServices = app.AppointmentServices.Select(aserv => 
+            new AppointmentServiceDTO
+            {
+                Id = aserv.Id,
+                AppointmentId = aserv.AppointmentId,
+                ServiceId = aserv.ServiceId,
+                Service = new ServiceDTO
+                {
+                    Id = aserv.Service.Id,
+                    Name = aserv.Service.Name,
+                    Price = aserv.Service.Price
+                }
+        }).ToList()
+    }).ToList();
+});
 
 
 app.Run();

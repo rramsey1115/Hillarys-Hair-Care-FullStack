@@ -135,6 +135,10 @@ namespace HillarysHairCare.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("ServiceId");
+
                     b.ToTable("AppointmentService");
 
                     b.HasData(
@@ -333,9 +337,6 @@ namespace HillarysHairCare.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -344,8 +345,6 @@ namespace HillarysHairCare.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
 
                     b.ToTable("Services");
 
@@ -480,16 +479,26 @@ namespace HillarysHairCare.Migrations
                     b.Navigation("Stylist");
                 });
 
-            modelBuilder.Entity("HillarysHairCare.Models.Service", b =>
+            modelBuilder.Entity("HillarysHairCare.Models.AppointmentService", b =>
                 {
                     b.HasOne("HillarysHairCare.Models.Appointment", null)
-                        .WithMany("Services")
-                        .HasForeignKey("AppointmentId");
+                        .WithMany("AppointmentServices")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HillarysHairCare.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("HillarysHairCare.Models.Appointment", b =>
                 {
-                    b.Navigation("Services");
+                    b.Navigation("AppointmentServices");
                 });
 
             modelBuilder.Entity("HillarysHairCare.Models.Customer", b =>
