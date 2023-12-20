@@ -12,13 +12,13 @@ public class AppointmentDTO
     public CustomerDTO Customer { get; set; }
     public DateTime Date { get; set; }
     public List<AppointmentServiceDTO> AppointmentServices { get; set; }
-    public decimal TotalCost
+    public decimal? TotalCost
     {
         get
         {
-            decimal price = 25.00M;
-            AppointmentServices.Select(s => price += s.Service.Price);
-            return price;
+            decimal price = 0;
+            var res = AppointmentServices?.Select(appointmentS => appointmentS.Service.Price);
+            return res != null && res.Any() ? res.Sum() + 25 : (decimal?)25;
         }
     }
 }
