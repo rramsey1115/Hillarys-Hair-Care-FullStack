@@ -221,7 +221,7 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
     .Include(a => a.Customer)
     .Include(a => a.Stylist)
     .Include(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
-    .Single(a => a.Id == id);
+    .SingleOrDefault(a => a.Id == id);
 
     if(foundA == null)
     {
