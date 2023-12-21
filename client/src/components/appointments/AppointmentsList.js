@@ -1,3 +1,3 @@
 export const AppointmentsList = () => {
-    return <h1>Appointments List</h1>
+    return (<div className="container"><h1>Appointments List</h1></div>)
 }

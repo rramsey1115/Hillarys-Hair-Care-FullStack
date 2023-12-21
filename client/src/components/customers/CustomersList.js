@@ -1,3 +1,3 @@
 export const CustomersList = () => {
-    return <h1>Customers List</h1>
+    return (<div className="container"><h1>Customers List</h1></div>)
 }
