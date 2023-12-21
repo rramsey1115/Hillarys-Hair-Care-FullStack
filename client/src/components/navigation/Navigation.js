@@ -4,7 +4,7 @@ export const Navigation = () => {
     return (
         <Navbar color="dark" expand="sm">
             <Nav navbar>
-                <NavbarBrand href="/">Hillary's</NavbarBrand>
+                <NavbarBrand href="/">💈👱🏻‍♀️ Hillary's 💇🏻🪮 </NavbarBrand>
                 <NavItem>
                     <NavLink href="/customers">Customers</NavLink>
                 </NavItem>
