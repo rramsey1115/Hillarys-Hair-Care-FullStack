@@ -12,3 +12,13 @@ code {
     monospace;
 }
 
+#root {
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  width: 75vw;
+  margin: 20px auto;
+}
+
