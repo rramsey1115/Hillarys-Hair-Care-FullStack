@@ -19,6 +19,11 @@ export const CustomersList = () => {
     <div className="container">
         <div className="header">
             <h1>Customers</h1>
+            <Button
+                className="header-button"
+                size="md"
+                >New +
+            </Button>
         </div>
         <div className="main">
             <Table>

@@ -6,7 +6,7 @@ body {
 }
 
 :root {
-  --purle: rgb(43, 30, 43);
+  --purle: rgb(63, 34, 63);
 }
 
 code {
@@ -26,6 +26,23 @@ code {
 
 .header {
   border-bottom: 2px solid var(--purle);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.header-button {
+  width: 100px;
+  background-image: linear-gradient(to bottom right, rgba(175, 55, 175, 0.69), var(--purle));
+  box-shadow: 0px 0px 8px gray;
+  margin-right: 20px;
+  transition: ease-in-out .4s;
+}
+
+.header-button:hover {
+  background-image: linear-gradient(to bottom right, rgba(197, 26, 197, 0.696), var(--purle));
+  box-shadow: 0px 0px 6px gray;
+  transition: ease-in-out .4s;
 }
 
 .main {
