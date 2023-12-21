@@ -1,5 +1,7 @@
 .nav-container {
     background-color: var(--purle);
-    width: 20vw;
+    width: 16vw;
     min-width: 200px;
+    height: 100vh;
+    position: fixed;
 }
