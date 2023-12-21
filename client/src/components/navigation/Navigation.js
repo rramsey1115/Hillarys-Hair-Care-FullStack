@@ -1,9 +1,9 @@
-import {Nav, NavItem, Navbar, NavbarBrand, NavLink} from "reactstrap"
+import {Nav, NavItem, Navbar, NavbarBrand, NavLink, Button, Offcanvas, OffcanvasHeader, OffcanvasBody} from "reactstrap"
 
 export const Navigation = () => {
     return (
         <Navbar color="black" dark expand="sm">
-            <Nav vertical>
+            <Nav navbar>
                 <NavbarBrand href="/">💈👱🏻‍♀️ Hillary's 💇🏻🪮 </NavbarBrand>
                 <NavItem>
                     <NavLink href="/customers">Customers</NavLink>
