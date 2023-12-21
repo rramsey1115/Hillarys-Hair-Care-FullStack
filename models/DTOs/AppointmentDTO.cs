@@ -1,8 +1,5 @@
 
-
-using System.Reflection.Metadata.Ecma335;
 using HillarysHairCare.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 public class AppointmentDTO
 {
