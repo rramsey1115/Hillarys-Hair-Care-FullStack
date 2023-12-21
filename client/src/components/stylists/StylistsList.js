@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap"
-import { getAllStylists } from "../../data/StylistsData";
+import { changeActiveStatus, getAllStylists } from "../../data/StylistsData";
 import { useNavigate } from "react-router-dom";
 
 export const StylistList = () => {
@@ -13,6 +13,11 @@ export const StylistList = () => {
     }
 
     const navigate = useNavigate();
+
+    const handleActivate = async (id) => {
+        await changeActiveStatus(id);
+        getAndSetStylists();
+    }
 
     return (
     <div className="container">
@@ -36,13 +41,28 @@ export const StylistList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {stylists?.map((s) => {
+                    {stylists.map((s) => {
                         return(
                         <tr key={s.id}>
                             <th scope="row">{s.id}</th>
                             <td>{s.name}</td>
                             <td>{s.email}</td>
-                            <td>{s.isActive ? "Active" : "Inactive"}</td>
+                            <td>{s.isActive 
+                                ? <Button 
+                                    size="sm" 
+                                    color="danger"
+                                    value={s.id}
+                                    onClick={(e) => handleActivate(e.target.value * 1)}
+                                    >Deactivate
+                                    </Button>
+                                : <Button 
+                                size="sm" 
+                                color="secondary"
+                                value={s.id}
+                                onClick={(e) => handleActivate(e.target.value * 1)}
+                                >Activate
+                                </Button>}
+                            </td>
                             <td>
                                 <Button 
                                 value={s.id} 
