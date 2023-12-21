@@ -1,7 +1,6 @@
 .nav-container {
-    background-color: var(--purle);
-    width: 16vw;
-    min-width: 200px;
+    background-image: linear-gradient(to bottom right, rgba(54, 0, 54, 0.808), var(--purle));
+    width: 210px;
     height: 100vh;
     position: fixed;
 }
