@@ -10,6 +10,7 @@ export const PastApp = () => {
                         <th>Stylist</th>
                         <th>Date</th>
                         <th>Services</th>
+                        <th>Price</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
