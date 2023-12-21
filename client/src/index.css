@@ -27,3 +27,7 @@ code {
 .header {
   border-bottom: 2px solid var(--purle);
 }
+
+.main {
+  margin-top: 20px;
+}
