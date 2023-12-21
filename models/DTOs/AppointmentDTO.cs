@@ -1,5 +1,6 @@
 
 
+using System.Reflection.Metadata.Ecma335;
 using HillarysHairCare.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
@@ -19,6 +20,20 @@ public class AppointmentDTO
             decimal price = 0;
             var res = AppointmentServices?.Select(appointmentS => appointmentS.Service.Price);
             return res != null && res.Any() ? res.Sum() + 25 : (decimal?)25;
+        }
+    }
+    public bool? IsPast
+    {
+        get
+        {
+           if(Date < DateTime.Now)
+           {
+            return true;
+           }
+           else
+           {
+            return false;
+           }
         }
     }
 }
