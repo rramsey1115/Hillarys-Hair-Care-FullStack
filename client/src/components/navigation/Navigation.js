@@ -1,5 +1,4 @@
-import { NavLink } from "react-router-dom"
-import {Nav, NavItem, Navbar, NavbarBrand} from "reactstrap"
+import {Nav, NavItem, Navbar, NavbarBrand, NavLink} from "reactstrap"
 
 export const Navigation = () => {
     return (
