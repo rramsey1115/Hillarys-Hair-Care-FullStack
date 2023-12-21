@@ -1,8 +1,5 @@
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Json;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +26,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 /* 
-****************************************************************************************************
-                                           ENDPOINTS
-****************************************************************************************************
+*********************************************************************************************************
+                                                ENDPOINTS
+*********************************************************************************************************
  */
 
 // GET all Stylists
