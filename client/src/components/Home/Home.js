@@ -2,7 +2,10 @@ export const Home = () => {
     return (
     <div className="container">
         <div className="header">
-            <h1>HOME</h1>
+            <h1>Home</h1>
+        </div>
+        <div className="main">
+
         </div>
     </div>)
 }
