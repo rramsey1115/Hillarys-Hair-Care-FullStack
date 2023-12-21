@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import './App.css';
+import { Navigation } from "./components/navigation/Navigation";
+import { Home } from "./components/Home/Home.js";
+import { StylistList } from "./components/stylists/StylistsList.js";
+import { CustomersList } from "./components/customers/CustomersList.js";
+import { AppointmentsList } from "./components/appointments/AppointmentsList.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<><Navigation /><Outlet /></>}>
+        <Route index element={<Home />} />
+      </Route>
+      <Route path="/stylists" element={<><Navigation /><Outlet /></>}>
+        <Route index element={<StylistList />} />
+      </Route>
+      <Route path="/customers" element={<><Navigation /><Outlet /></>}>
+        <Route index element={<CustomersList />} />
+      </Route>
+      <Route path="/appointments" element={<><Navigation /><Outlet /></>}>
+        <Route index element={<AppointmentsList />} />
+      </Route>
+    </Routes> 
+  </BrowserRouter>
   );
 }
 
