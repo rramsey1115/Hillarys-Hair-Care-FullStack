@@ -16,24 +16,26 @@ export const Home = () => {
                 The front-end was built using React, Bootstrap, and vanilla CSS.
             </p>
             <h4>Skills Used</h4>
-            <ul>
-                <li>C#/.NET</li>
-                <li>React</li>
-                <li>PostgreSQL</li>
-                <li>JavaScript</li>
-                <li>Bootstrap</li>
-                <li>pgAdmin</li>
-                <li>VSCode</li>
-                <li>Swagger</li>
-                <li>Entity Framework Core</li>
-                <li>Web API</li>
-                <li>GitHub</li>
-                <li>Project Planning</li>
-                <li>Ticket Board</li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+            <div className="skills">
+                <ul>
+                    <li>C#/.NET</li>
+                    <li>React</li>
+                    <li>PostgreSQL</li>
+                    <li>JavaScript</li>
+                    <li>Bootstrap</li>
+                    <li>pgAdmin</li>
+                    <li>VSCode</li>
+                    <li>Swagger</li>
+                    <li>Entity Framework Core</li>
+                    <li>Web API</li>
+                    <li>GitHub</li>
+                    <li>Project Planning</li>
+                    <li>Ticket Board</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
         </div>
     </div>)
 }

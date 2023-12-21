@@ -276,6 +276,4 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) => {
     }).ToList();
 });
 
-
-
 app.Run();
