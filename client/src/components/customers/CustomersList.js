@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import "./Customers.css"
 import { getAllCustomers } from "../../data/CustomersData";
 import { Button, Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";

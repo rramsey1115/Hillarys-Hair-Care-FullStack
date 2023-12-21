@@ -6,6 +6,7 @@ import { StylistList } from "./components/stylists/StylistsList.js";
 import { CustomersList } from "./components/customers/CustomersList.js";
 import { AppointmentsList } from "./components/appointments/AppointmentsList.js";
 import { CustomerDetails } from "./components/customers/CustomerDetails.js";
+import { StylistDetails } from "./components/stylists/StylistDetails.js";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       </Route>
       <Route path="/stylists" element={<><Navigation /><Outlet /></>}>
         <Route index element={<StylistList />} />
+        <Route path=":id" element={<StylistDetails />} />
       </Route>
       <Route path="/customers" element={<><Navigation /><Outlet /></>}>
         <Route index element={<CustomersList />} />
