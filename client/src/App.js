@@ -1,5 +1,5 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import './App.css';
+import "./index.css"
 import { Navigation } from "./components/navigation/Navigation";
 import { Home } from "./components/Home/Home.js";
 import { StylistList } from "./components/stylists/StylistsList.js";
