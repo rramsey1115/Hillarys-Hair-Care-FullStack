@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import "./Customers.css"
 import { getAllCustomers } from "../../data/CustomersData";
 import { Button, Table } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 export const CustomersList = () => {
     const [customers, setCustomers] = useState([]);
@@ -11,6 +12,8 @@ export const CustomersList = () => {
     const getAndSetCustomers = () => {
         getAllCustomers().then(data => setCustomers(data));
     }
+
+    const navigate = useNavigate();
 
     return (
     <div className="container">
@@ -25,17 +28,24 @@ export const CustomersList = () => {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Details</th>
-                        <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {customers?.map((c) => {
-                        return(<tr key={c.id}>
+                        return(
+                        <tr key={c.id}>
                             <th scope="row">{c.id}</th>
                             <td>{c.name}</td>
                             <td>{c.email}</td>
-                            <td><Button color="secondary">Details</Button></td>
+                            <td>
+                                <Button 
+                                value={c.id} 
+                                onClick={e => navigate(`${e.target.value}`)} 
+                                size="sm" 
+                                color="secondary"
+                                >Details
+                                </Button>
+                            </td>
                         </tr>)
                     })}
                 </tbody>
