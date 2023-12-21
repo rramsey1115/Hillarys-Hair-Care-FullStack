@@ -1,3 +1,8 @@
 export const CustomersList = () => {
-    return (<div className="container"><h1>Customers List</h1></div>)
+    return (
+        <div className="container">
+            <div className="header">
+                <h1>Customers</h1>
+            </div>
+        </div>)
 }
