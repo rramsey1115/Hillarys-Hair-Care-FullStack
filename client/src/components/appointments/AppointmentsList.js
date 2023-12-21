@@ -18,6 +18,9 @@ export const AppointmentsList = () => {
                         <th></th>
                     </tr>
                 </thead>
+                <tbody>
+
+                </tbody>
             </Table>
         </div>
     </div>)

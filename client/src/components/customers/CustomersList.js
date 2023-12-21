@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import "./Customers.css"
 import { getAllCustomers } from "../../data/CustomersData";
-import { Table } from "reactstrap";
+import { Button, Table } from "reactstrap";
 
 export const CustomersList = () => {
     const [customers, setCustomers] = useState([]);
@@ -29,6 +29,16 @@ export const CustomersList = () => {
                         <th></th>
                     </tr>
                 </thead>
+                <tbody>
+                    {customers?.map((c) => {
+                        return(<tr key={c.id}>
+                            <th scope="row">{c.id}</th>
+                            <td>{c.name}</td>
+                            <td>{c.email}</td>
+                            <td><Button color="secondary">Details</Button></td>
+                        </tr>)
+                    })}
+                </tbody>
             </Table>
         </div>
     </div>)
