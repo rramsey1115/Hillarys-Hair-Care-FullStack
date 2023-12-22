@@ -7,6 +7,7 @@ import { CustomersList } from "./components/customers/CustomersList.js";
 import { AppointmentsList } from "./components/appointments/AppointmentsList.js";
 import { CustomerDetails } from "./components/customers/CustomerDetails.js";
 import { StylistDetails } from "./components/stylists/StylistDetails.js";
+import { EditAppointment } from "./components/appointments/EditAppointment.js";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
       </Route>
       <Route path="/appointments" element={<><Navigation /><Outlet /></>}>
         <Route index element={<AppointmentsList />} />
+        <Route path="edit">
+          <Route path=":id" element={<EditAppointment /> } />
+          </Route> 
       </Route>
     </Routes> 
   </BrowserRouter>
