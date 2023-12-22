@@ -26,12 +26,12 @@ export const AppointmentsList = () => {
         <div className="main">
             <div>
                 <h3>Upcoming</h3>
-                {allAppointments.length > 0 ? <UpcomingApp getAndSetAppointments={getAndSetAppointments} allAppointments={allAppointments}/> : "please wait"}
+                <UpcomingApp allAppointments={allAppointments}/>
             </div>
             <br/>
             <div>
             <h4>Past</h4>
-                <PastApp getAndSetAppointments={getAndSetAppointments} allAppointments={allAppointments}/>
+                <PastApp allAppointments={allAppointments}/>
             </div>
         </div>
     </div>)

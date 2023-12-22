@@ -47,7 +47,7 @@ export const UpcomingApp = ({ allAppointments }) => {
                                 <td>{a.stylist.name}</td>
                                 <td>{getFormattedDate(a.date)}</td>
                                 <td>{getFormattedTime(a.date)}</td>
-                                <td>{a.appointmentServices?.map(s => {return <div>{s.service.name}</div>} )}</td>
+                                <td>{a.appointmentServices?.map(s => {return <div key={s.id}>{s.service.name}</div>} )}</td>
                                 <td>${a.totalCost}</td>
                                 <td><Button
                                     size="sm"
