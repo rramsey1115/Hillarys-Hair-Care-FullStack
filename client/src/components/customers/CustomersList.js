@@ -26,7 +26,7 @@ export const CustomersList = () => {
         </div>
         <div className="main">
             <Table>
-                <thead>
+                <thead style={{backgroundColor:"lightgray"}}>
                     <tr>
                         <th>Id</th>
                         <th>Name</th>

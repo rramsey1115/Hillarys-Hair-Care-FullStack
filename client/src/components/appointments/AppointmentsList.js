@@ -13,7 +13,6 @@ export const AppointmentsList = () => {
         getAllAppointments().then(data => setAllAppointments(data))
     }
 
-    console.log("allApp", allAppointments)
     return (
     <div className="container">
         <div className="header">
@@ -26,7 +25,7 @@ export const AppointmentsList = () => {
         </div>
         <div className="main">
             <div>
-                <h4>Upcoming</h4>
+                <h3>Upcoming</h3>
                 {allAppointments.length > 0 ? <UpcomingApp getAndSetAppointments={getAndSetAppointments} allAppointments={allAppointments}/> : "please wait"}
             </div>
             <br/>

@@ -26,7 +26,7 @@ export const UpcomingApp = ({ allAppointments }) => {
 
     return (
         <Table>
-            <thead>
+            <thead style={{backgroundColor:"lightgray"}}>
                     <tr>
                         <th>Id</th>
                         <th>Customer</th>

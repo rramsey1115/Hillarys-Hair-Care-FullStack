@@ -6,7 +6,7 @@ export const Home = () => {
             <h1>Home</h1>
         </div>
         <div className="main">
-            <h4>About</h4>
+            <h3>About</h3>
             <p>
                 This application was built as an exercise for NSS. "Hillary" hired me to build an application to help her schedule appointments between customers and stylists.
                 I was given a list of needs from Hillary, and created a wireframe, ERD, GitHub tickets, GitHub project board, and repositroy for this project.
@@ -16,7 +16,7 @@ export const Home = () => {
                 This app was built with a ASP/.NET Minimal API web api, using PostgreSQL and Entity Framework Core for data storage and access.
                 The front-end was built using React, Bootstrap, and vanilla CSS.
             </p>
-            <h4>Technical Skills Used</h4>
+            <h3>Technical Skills Used</h3>
             <table style={{marginBottom:14}}>
                 <tr>
                     <td style={{paddingLeft:0}}><img width="50" src="https://user-images.githubusercontent.com/25181517/121405384-444d7300-c95d-11eb-959f-913020d3bf90.png" alt="C#" title="C#"/></td>
@@ -34,7 +34,7 @@ export const Home = () => {
                     <td style={{paddingLeft:30}}><img width="50" src="https://user-images.githubusercontent.com/25181517/186711335-a3729606-5a78-4496-9a36-06efcc74f800.png" alt="Swagger" title="Swagger"/></td>
                 </tr>
             </table>
-            <h4>Soft Skills Used</h4>
+            <h3>Soft Skills Used</h3>
             <ul>
                 <li>Problem Solving</li>
                 <li>Project Planning</li>
