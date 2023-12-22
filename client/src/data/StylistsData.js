@@ -13,3 +13,7 @@ export const changeActiveStatus = (id) => {
     headers: {"Content-Type":"application-json"}
     });
 };
+
+export const getStylistAppointments = (id) => {
+    return fetch(`/api/appointments/stylist/${id}`).then(res => res.json());
+}

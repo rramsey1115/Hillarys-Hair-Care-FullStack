@@ -66,7 +66,7 @@ export const StylistList = () => {
                             <td>
                                 <Button 
                                 value={s.id} 
-                                onClick={e => navigate(`${e.target.value}`)} 
+                                onClick={(e) => navigate(`${e.target.value * 1}`)} 
                                 size="sm" 
                                 color="secondary"
                                 >Details

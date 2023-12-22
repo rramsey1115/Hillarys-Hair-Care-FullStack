@@ -67,6 +67,7 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) =>
             Email = foundS.Email,
             Bio = foundS.Bio,
             ImgUrl = foundS.ImgUrl,
+            IsActive = foundS.IsActive,
             Appointments = foundS.Appointments?.Select(a => new AppointmentDTO
             {
                 Id = a.Id,
@@ -78,7 +79,6 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) =>
                     Name = a.Customer.Name,
                     Email = a.Customer.Email
                 },
-                Date = a.Date,
                 AppointmentServices = a.AppointmentServices?.Select(asvc => new AppointmentServiceDTO
                 {
                     Id = asvc.Id,
@@ -209,6 +209,53 @@ app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int
                 Name = f.Stylist.Name,
                 Email = f.Stylist.Email,
                 Bio = f.Stylist.Bio
+            },
+            CustomerId = f.CustomerId,
+            Date = f.Date,
+            AppointmentServices = f.AppointmentServices.Select(apps => new AppointmentServiceDTO
+            {
+                Id = apps.Id,
+                ServiceId = apps.ServiceId,
+                Service = new ServiceDTO
+                {
+                    Id = apps.Service.Id,
+                    Name = apps.Service.Name,
+                    Price = apps.Service.Price
+                }
+            }).ToList()
+        }).ToList());
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound(ex);
+    }
+});
+
+// Get Stylist appointment by stylistId
+app.MapGet("/api/appointments/stylist/{id}", (HillarysHairCareDbContext db, int id) =>
+{
+    try
+    {
+        List<Appointment> filtered = db.Appointments
+        .Include(a => a.Customer)
+        .Include(a => a.AppointmentServices).ThenInclude(s => s.Service)
+        .Where(a => a.StylistId == id)
+        .ToList();
+
+        if (filtered == null)
+        {
+            return Results.NotFound("no matching appointments");
+        }
+
+        return Results.Ok(filtered.Select(f => new AppointmentDTO
+        {
+            Id = f.Id,
+            StylistId = f.StylistId,
+            Customer = new CustomerDTO
+            {
+                Id = f.Customer.Id,
+                Name = f.Customer.Name,
+                Email = f.Customer.Email
             },
             CustomerId = f.CustomerId,
             Date = f.Date,
