@@ -13,7 +13,6 @@ export const AppointmentsList = () => {
         getAllAppointments().then(data => setAllAppointments(data))
     }
 
-    console.log("allApp", allAppointments)
     return (
     <div className="container">
         <div className="header">

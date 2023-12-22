@@ -32,7 +32,8 @@ app.UseHttpsRedirection();
  */
 
 // GET all Stylists
-app.MapGet("/api/stylists", (HillarysHairCareDbContext db) => {
+app.MapGet("/api/stylists", (HillarysHairCareDbContext db) =>
+{
     return db.Stylists.OrderBy(s => s.Id).Include(s => s.Appointments).Select(s => new StylistDTO
     {
         Id = s.Id,
@@ -45,7 +46,8 @@ app.MapGet("/api/stylists", (HillarysHairCareDbContext db) => {
 });
 
 // Get stylist by id
-app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) => {
+app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) =>
+{
     try
     {
         Stylist foundS = db.Stylists
@@ -53,7 +55,7 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) => {
         .Include(s => s.Appointments).ThenInclude(app => app.AppointmentServices).ThenInclude(aservices => aservices.Service)
         .SingleOrDefault(s => s.Id == id);
 
-        if(foundS == null)
+        if (foundS == null)
         {
             return Results.NotFound("No stylist with given id");
         }
@@ -102,7 +104,8 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) => {
 });
 
 // Deactivate/Activate stylist by id
-app.MapPut("/api/stylist/{id}/deactivate", (HillarysHairCareDbContext db, int id) => {
+app.MapPut("/api/stylist/{id}/deactivate", (HillarysHairCareDbContext db, int id) =>
+{
     Stylist matchedStylist = db.Stylists.SingleOrDefault(s => s.Id == id);
     if (matchedStylist == null)
     {
@@ -114,7 +117,8 @@ app.MapPut("/api/stylist/{id}/deactivate", (HillarysHairCareDbContext db, int id
 });
 
 // GET all Customers
-app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
+app.MapGet("/api/customers", (HillarysHairCareDbContext db) =>
+{
     return db.Customers.OrderBy(c => c.Id).Select(c => new CustomerDTO
     {
         Id = c.Id,
@@ -124,52 +128,53 @@ app.MapGet("/api/customers", (HillarysHairCareDbContext db) => {
 });
 
 // Get Customer by id
-app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) => {
+app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) =>
+{
     try
     {
-    Customer foundC = db.Customers
-    .Include(c => c.Appointments).ThenInclude(a => a.Stylist)
-    .Include(c => c.Appointments).ThenInclude(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
-    .SingleOrDefault(c => c.Id == id);
+        Customer foundC = db.Customers
+        .Include(c => c.Appointments).ThenInclude(a => a.Stylist)
+        .Include(c => c.Appointments).ThenInclude(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
+        .SingleOrDefault(c => c.Id == id);
 
-    if(foundC == null)
-    {
-        return Results.NotFound("No customer with given id");
-    }
-
-    return Results.Ok(new CustomerDTO
-    {
-        Id = foundC.Id,
-        Name = foundC.Name,
-        Email = foundC.Email,
-        Appointments = foundC.Appointments.Select(app => new AppointmentDTO
+        if (foundC == null)
         {
-            Id = app.Id,
-            StylistId = app.StylistId,
-            Stylist = new StylistDTO
+            return Results.NotFound("No customer with given id");
+        }
+
+        return Results.Ok(new CustomerDTO
+        {
+            Id = foundC.Id,
+            Name = foundC.Name,
+            Email = foundC.Email,
+            Appointments = foundC.Appointments.Select(app => new AppointmentDTO
             {
-                Id = app.Stylist.Id,
-                Name = app.Stylist.Name,
-                Email = app.Stylist.Email,
-                Bio = app.Stylist.Bio,
-                ImgUrl = app.Stylist.ImgUrl
-            },
-            CustomerId = foundC.Id,
-            Date = app.Date,
-            AppointmentServices = app.AppointmentServices.Select(s => new AppointmentServiceDTO
-            {
-                Id = s.Id,
-                AppointmentId = s.AppointmentId,
-                ServiceId = s.ServiceId,
-                Service = new ServiceDTO
+                Id = app.Id,
+                StylistId = app.StylistId,
+                Stylist = new StylistDTO
                 {
-                    Id = s.Service.Id,
-                    Name = s.Service.Name,
-                    Price = s.Service.Price
-                }
+                    Id = app.Stylist.Id,
+                    Name = app.Stylist.Name,
+                    Email = app.Stylist.Email,
+                    Bio = app.Stylist.Bio,
+                    ImgUrl = app.Stylist.ImgUrl
+                },
+                CustomerId = foundC.Id,
+                Date = app.Date,
+                AppointmentServices = app.AppointmentServices.Select(s => new AppointmentServiceDTO
+                {
+                    Id = s.Id,
+                    AppointmentId = s.AppointmentId,
+                    ServiceId = s.ServiceId,
+                    Service = new ServiceDTO
+                    {
+                        Id = s.Service.Id,
+                        Name = s.Service.Name,
+                        Price = s.Service.Price
+                    }
+                }).ToList()
             }).ToList()
-        }).ToList()
-    });
+        });
     }
 
     catch (Exception ex)
@@ -178,8 +183,57 @@ app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) => {
     }
 });
 
+// Get Customer appointments by customerId
+app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int id) =>
+{
+    try
+    {
+        List<Appointment> filtered = db.Appointments
+        .Include(a => a.Stylist)
+        .Include(a => a.AppointmentServices).ThenInclude(s => s.Service)
+        .Where(a => a.CustomerId == id)
+        .ToList();
+
+        if (filtered == null)
+        {
+            return Results.NotFound("no matching appointments");
+        }
+
+        return Results.Ok(filtered.Select(f => new AppointmentDTO
+        {
+            Id = f.Id,
+            StylistId = f.StylistId,
+            Stylist = new StylistDTO
+            {
+                Id = f.Stylist.Id,
+                Name = f.Stylist.Name,
+                Email = f.Stylist.Email,
+                Bio = f.Stylist.Bio
+            },
+            CustomerId = f.CustomerId,
+            Date = f.Date,
+            AppointmentServices = f.AppointmentServices.Select(apps => new AppointmentServiceDTO
+            {
+                Id = apps.Id,
+                ServiceId = apps.ServiceId,
+                Service = new ServiceDTO
+                {
+                    Id = apps.Service.Id,
+                    Name = apps.Service.Name,
+                    Price = apps.Service.Price
+                }
+            }).ToList()
+        }).ToList());
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound(ex);
+    }
+});
+
 // GET all Appointments
-app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
+app.MapGet("/api/appointments", (HillarysHairCareDbContext db) =>
+{
     return db.Appointments
     .OrderBy(app => app.Date)
     .Include(app => app.Customer)
@@ -206,7 +260,7 @@ app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
             Email = app.Customer.Email
         },
         Date = app.Date,
-        AppointmentServices = app.AppointmentServices.Select(aserv => 
+        AppointmentServices = app.AppointmentServices.Select(aserv =>
             new AppointmentServiceDTO
             {
                 Id = aserv.Id,
@@ -218,26 +272,27 @@ app.MapGet("/api/appointments", (HillarysHairCareDbContext db) => {
                     Name = aserv.Service.Name,
                     Price = aserv.Service.Price
                 }
-        }).ToList()
+            }).ToList()
     }).ToList();
 });
 
 // GET Appointment by id
-app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
+app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) =>
+{
     try
     {
-    Appointment foundA = db.Appointments
-    .Include(a => a.Customer)
-    .Include(a => a.Stylist)
-    .Include(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
-    .SingleOrDefault(a => a.Id == id);
+        Appointment foundA = db.Appointments
+        .Include(a => a.Customer)
+        .Include(a => a.Stylist)
+        .Include(a => a.AppointmentServices).ThenInclude(aserv => aserv.Service)
+        .SingleOrDefault(a => a.Id == id);
 
-    if(foundA == null)
-    {
-        return Results.NotFound("No appointment with given id");
-    }
+        if (foundA == null)
+        {
+            return Results.NotFound("No appointment with given id");
+        }
 
-    return Results.Ok(new AppointmentDTO
+        return Results.Ok(new AppointmentDTO
         {
             Id = foundA.Id,
             StylistId = foundA.StylistId,
@@ -273,10 +328,11 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
     {
         return Results.NotFound(ex);
     }
-}); 
+});
 
 // Get all Services
-app.MapGet("/api/services", (HillarysHairCareDbContext db) => {
+app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
+{
     return db.Services.OrderBy(s => s.Id).Select(s => new ServiceDTO
     {
         Id = s.Id,
