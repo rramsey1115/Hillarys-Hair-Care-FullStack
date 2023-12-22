@@ -50,7 +50,7 @@ export const CustomerDetails = () => {
             <h1>Customer Details</h1>
         </div>
         <div className="main">
-            <h4>{customer.name}</h4>
+            <h3>{customer.name}</h3>
             <Table>
                 <tbody>
                     <tr>
@@ -64,9 +64,9 @@ export const CustomerDetails = () => {
                 </tbody>
             </Table>
             <br/>
-            <h4>Appointments</h4>
+            <h3>Appointments</h3>
             <Table>
-            <thead>
+            <thead style={{backgroundColor:"lightgray"}}>
                     <tr>
                         <th>Id</th>
                         <th>Stylist</th>
