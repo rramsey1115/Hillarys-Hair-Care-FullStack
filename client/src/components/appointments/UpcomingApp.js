@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Button, Table } from "reactstrap"
 
 export const UpcomingApp = ({ allAppointments }) => {
@@ -20,6 +21,8 @@ export const UpcomingApp = ({ allAppointments }) => {
         if(hh >= 12) {return (hh - 12 + ':00 PM')}
         if (hh < 12) {return (hh + ':00 AM')}
       }
+
+    const navigate=useNavigate();
 
     return (
         <Table>
@@ -46,7 +49,11 @@ export const UpcomingApp = ({ allAppointments }) => {
                                 <td>{getFormattedTime(a.date)}</td>
                                 <td>{a.appointmentServices?.map(s => {return <div>{s.service.name}</div>} )}</td>
                                 <td>${a.totalCost}</td>
-                                <td><Button>Details</Button></td>
+                                <td><Button
+                                    size="sm"
+                                    value={a.id}
+                                    onClick={(e) => navigate(`edit/${e.target.value}`)}
+                                    >Edit</Button></td>
                             </tr>
                         )
                     })}
