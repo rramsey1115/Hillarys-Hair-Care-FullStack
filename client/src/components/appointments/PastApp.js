@@ -1,6 +1,7 @@
 import { Table } from "reactstrap"
 
-export const PastApp = () => {
+
+export const PastApp = ({getAndSetAppointments}) => {
     return (
         <Table>
             <thead>
