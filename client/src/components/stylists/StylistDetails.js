@@ -45,8 +45,6 @@ export const StylistDetails = () => {
 
     const navigate = useNavigate();
 
-    console.log('stylist', stylist);
-    
     return( 
     <div className="container">
         <div className="header">
@@ -66,6 +64,8 @@ export const StylistDetails = () => {
                     </tr>
                 </tbody>
             </Table><br/>
+            {stylist.isActive ? 
+            <>
             <h3>Appointments</h3>
             <Table>
                 <thead style={{backgroundColor:"lightgray"}}>
@@ -96,7 +96,7 @@ export const StylistDetails = () => {
                         )
                     })}
                 </tbody>
-            </Table>
+            </Table></>: <h3>Inactive</h3> }
         </div>
     </div> 
    ) 
