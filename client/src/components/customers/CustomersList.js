@@ -21,6 +21,7 @@ export const CustomersList = () => {
             <Button
                 className="header-button"
                 size="md"
+                onClick={(e) => navigate('add')}
                 >New +
             </Button>
         </div>

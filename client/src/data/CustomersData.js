@@ -9,3 +9,11 @@ export const getCustomerById = (id) => {
 export const getCustomerAppointments = (customerId) => {
     return fetch(`/api/appointments/customer/${customerId}`).then(res => res.json());
 }
+
+export const postNewCustomer = (customerObj) => {
+    return fetch(`/api/customers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(customerObj),
+    }).then((res) => res.json());
+}
