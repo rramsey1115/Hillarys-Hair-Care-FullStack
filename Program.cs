@@ -245,6 +245,21 @@ app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int
     }
 });
 
+// Add/Post new Customer
+app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) => {
+    try
+    {
+        db.Customers.Add(customer);
+        db.SaveChanges();
+        return Results.Created($"/api/customers/{customer.Id}", customer);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+
+});
+
 // Get Stylist appointment by stylistId
 app.MapGet("/api/appointments/stylist/{id}", (HillarysHairCareDbContext db, int id) =>
 {
