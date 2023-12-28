@@ -104,7 +104,7 @@ app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) =>
 });
 
 // Deactivate/Activate stylist by id
-app.MapPut("/api/stylist/{id}/deactivate", (HillarysHairCareDbContext db, int id) =>
+app.MapPut("/api/stylists/{id}/deactivate", (HillarysHairCareDbContext db, int id) =>
 {
     Stylist matchedStylist = db.Stylists.SingleOrDefault(s => s.Id == id);
     if (matchedStylist == null)
@@ -114,6 +114,20 @@ app.MapPut("/api/stylist/{id}/deactivate", (HillarysHairCareDbContext db, int id
     matchedStylist.IsActive = !matchedStylist.IsActive;
     db.SaveChanges();
     return Results.NoContent();
+});
+
+// Add/Post new stylist
+app.MapPost("/api/stylists", (HillarysHairCareDbContext db, Stylist stylist) => {
+    try
+    {
+        db.Stylists.Add(stylist);
+        db.SaveChanges();
+        return Results.Created($"/api/stylists/{stylist.Id}", stylist);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
 });
 
 // GET all Customers

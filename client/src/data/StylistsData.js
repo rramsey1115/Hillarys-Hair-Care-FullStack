@@ -7,7 +7,7 @@ export const getStylistById = (id) => {
 };
 
 export const changeActiveStatus = (id) => {
-    return fetch(`/api/stylist/${id}/deactivate`,
+    return fetch(`/api/stylists/${id}/deactivate`,
     {
     method:"PUT",
     headers: {"Content-Type":"application-json"}
@@ -16,4 +16,14 @@ export const changeActiveStatus = (id) => {
 
 export const getStylistAppointments = (id) => {
     return fetch(`/api/appointments/stylist/${id}`).then(res => res.json());
+}
+
+export const postNewStylist = (stylistObj) => {
+    console.log("stylistObj", stylistObj)
+    return fetch(`/api/stylists`,
+    {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(stylistObj),
+    }).then((res) => res.json());
 }

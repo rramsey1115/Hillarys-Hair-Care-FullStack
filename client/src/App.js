@@ -8,6 +8,7 @@ import { AppointmentsList } from "./components/appointments/AppointmentsList.js"
 import { CustomerDetails } from "./components/customers/CustomerDetails.js";
 import { StylistDetails } from "./components/stylists/StylistDetails.js";
 import { EditAppointment } from "./components/appointments/EditAppointment.js";
+import { AddStylist } from "./components/stylists/AddStylist.js";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/stylists" element={<><Navigation /><Outlet /></>}>
         <Route index element={<StylistList />} />
         <Route path=":id" element={<StylistDetails />} />
+        <Route path="add" element={<AddStylist />} />
       </Route>
       <Route path="/customers" element={<><Navigation /><Outlet /></>}>
         <Route index element={<CustomersList />} />
