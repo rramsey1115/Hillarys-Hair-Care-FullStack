@@ -20,7 +20,7 @@ export const PastApp = ({allAppointments}) => {
         let hh = date.getHours();
         if(hh >= 12) {return (hh - 12 + ':00 PM')}
         if (hh < 12) {return (hh + ':00 AM')}
-      }
+    }
 
     return (
         <Table>

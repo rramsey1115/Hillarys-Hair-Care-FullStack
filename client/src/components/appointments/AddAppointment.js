@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
-import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
+import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
 import { getAllStylists } from "../../data/StylistsData";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
     const [stylistsOpen, setStylistsOpen] = useState(false);
     const [appDate, setAppDate] = useState("");
-    const [appTime, setAppTime] = useState('');
     const [customerId, setCustomerId] = useState(0);
     const [customerName, setCustomerName] = useState("Customers");
     const [stylistId, setStylistId] = useState(0);
@@ -30,7 +32,21 @@ export const AddAppointment = () => {
     }
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
+
     const toggleStylists = () => setStylistsOpen((prevState => ! prevState));
+
+    const isWeekday = (date) => {
+        const date1 = new Date(date);
+        var day = date1.getDay();
+        return day !== 0 && day !== 6;
+    };
+
+    const filterTime = (time) => {
+        const startTime = 9;
+        const endTime = 17;
+        const selectedDate = new Date(time);
+        return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
+    }
 
     return (
     <div className="container">
@@ -72,7 +88,15 @@ export const AddAppointment = () => {
                 </fieldset>
                 <fieldset>
                     <h5>Select Date and Time</h5>
-                                
+                    <DatePicker 
+                        showIcon
+                        showTimeSelect
+                        timeIntervals={60}
+                        filterDate={isWeekday}
+                        filterTime={filterTime}
+                        selected={new Date()}
+                        onChange={date => setAppDate(date)}
+                        />
                 </fieldset>
                 <fieldset>
                     <h5>Select Services</h5>
