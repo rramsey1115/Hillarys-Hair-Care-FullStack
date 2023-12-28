@@ -257,7 +257,6 @@ app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) 
     {
         return Results.BadRequest($"Bad data submitted: {ex}");
     }
-
 });
 
 // Get Stylist appointment by stylistId
@@ -403,6 +402,20 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) =>
     catch (Exception ex)
     {
         return Results.NotFound(ex);
+    }
+});
+
+// Add/Post new Appointment
+app.MapPost("/api/appointments", (HillarysHairCareDbContext db, Appointment appointment) => {
+    try
+    {
+        db.Appointments.Add(appointment);
+        db.SaveChanges();
+        return Results.Created($"/api/appointments/{appointment.Id}", appointment);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
     }
 });
 
