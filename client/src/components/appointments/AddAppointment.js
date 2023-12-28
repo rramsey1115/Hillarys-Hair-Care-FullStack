@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from "reactstrap"
+import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
 import { getAllStylists } from "../../data/StylistsData";
 
@@ -7,6 +7,7 @@ export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
     const [stylistsOpen, setStylistsOpen] = useState(false);
     const [appDate, setAppDate] = useState("");
+    const [appTime, setAppTime] = useState('');
     const [customerId, setCustomerId] = useState(0);
     const [customerName, setCustomerName] = useState("Customers");
     const [stylistId, setStylistId] = useState(0);
@@ -29,7 +30,7 @@ export const AddAppointment = () => {
     }
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
-    const toggleStylists = () => setStylistsOpen((prevState => ! prevState))
+    const toggleStylists = () => setStylistsOpen((prevState => ! prevState));
 
     return (
     <div className="container">
@@ -68,6 +69,13 @@ export const AddAppointment = () => {
                             </DropdownItem>)}
                         </DropdownMenu>
                     </Dropdown>                       
+                </fieldset>
+                <fieldset>
+                    <h5>Select Date and Time</h5>
+                                
+                </fieldset>
+                <fieldset>
+                    <h5>Select Services</h5>
                 </fieldset>
             </form>
             <div className="button-container" style={{marginTop:30}}>
