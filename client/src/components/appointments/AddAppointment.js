@@ -62,7 +62,7 @@ export const AddAppointment = () => {
         return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
     }
 
-    const handleOnChange = (position, id) => {
+    const handleOnChange = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
           index === position ? !item : item
           );
@@ -71,7 +71,8 @@ export const AddAppointment = () => {
     
         const totalPrice = updatedCheckedState.reduce(
           (sum, currentState, index) => {
-            if (currentState === true) {
+            if (currentState === true) 
+            {
               return sum + allServices[index].price;
             }
             return sum;
@@ -94,11 +95,14 @@ export const AddAppointment = () => {
         await newAppointment(newApointmentObj).then(res => id = res.id);
         console.log('res', id);
 
+        checkedState.map(cs => cs === true ? getServiceById(cs.indexOf() + 1).then(data => selectedServ.push(data)) : null);
+            
         selectedServ.map(sserv => 
-            {
-                sserv.AppointmentId = id;
-                newAppointmentService(sserv)
-            });
+        {
+            sserv.AppointmentId = id;
+            newAppointmentService(sserv)
+        });
+
         navigate('/appointments');
     }
 
@@ -159,7 +163,7 @@ export const AddAppointment = () => {
                             id={`custom-checkbox-${index}`}
                             name={service.name}
                             value={service.id}
-                            onChange={(e) => handleOnChange(index, e.target.value)}
+                            onChange={(e) => handleOnChange(index)}
                             /> {service.name} - ${service.price}
                     </div>)}
                 </fieldset>
@@ -175,6 +179,7 @@ export const AddAppointment = () => {
                 ? <Button
                     className="header-button"
                     size="md"
+                    onClick={(e) => handleSubmitForm()}
                     >Submit</Button> 
                 : <Button
                     disabled
