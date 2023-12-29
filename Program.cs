@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -428,6 +429,29 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
         Name = s.Name,
         Price = s.Price
     }).ToList();
+});
+
+// Get sercvice by id
+app.MapGet("/api/services/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        Service foundS = db.Services.FirstOrDefault(s => s.Id == id);
+
+        if (foundS == null)
+        {
+            return Results.NotFound("No appointment with given id");
+        }
+
+        return Results.Ok(new ServiceDTO {
+            Id = foundS.Id,
+            Name = foundS.Name,
+            Price = foundS.Price
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad data given: {ex}");
+    }
 });
 
 app.Run();

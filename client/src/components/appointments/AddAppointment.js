@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from "reactstrap"
+import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
 import { getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getAllServices } from "../../data/ServicesData";
 
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
@@ -13,13 +14,15 @@ export const AddAppointment = () => {
     const [customerName, setCustomerName] = useState("Customers");
     const [stylistId, setStylistId] = useState(0);
     const [stylistName, setStylistName] = useState("Stylists");
-    const [services, setServices] = useState([]);
+    const [allServices, setAllServices] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [stylists, setStylists] = useState([]);
+    const [selectedServiceIds, setSelectedServiceIds] = useState([]);
 
     useEffect(() => {
         getAndSetCustomers();
         getAndSetStylists();
+        getAndSetServices();
     }, [])
 
     const getAndSetCustomers = () => {
@@ -28,6 +31,10 @@ export const AddAppointment = () => {
 
     const getAndSetStylists = () => {
         getAllStylists().then(data => setStylists(data));
+    }
+
+    const getAndSetServices = () => {
+        getAllServices().then(data => setAllServices(data));
     }
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
@@ -45,6 +52,10 @@ export const AddAppointment = () => {
         const endTime = 17;
         const selectedDate = new Date(time);
         return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
+    }
+
+    const totalPrice = () => {
+        let total = 25;
     }
 
     return (
@@ -99,12 +110,24 @@ export const AddAppointment = () => {
                 </fieldset>
                 <fieldset>
                     <h5>Select Services</h5>
+                    {allServices.map(service => <div key={service.id}>
+                        <Input type="checkbox"
+                            id="service"
+                            name={service.name}
+                            value={service.id}
+                            // onSelect={}
+                            /> {service.name} - ${service.price}
+                    </div>)}
                 </fieldset>
             </form>
+            <div className="price-container">
+                <h5>Total Price: {totalPrice}</h5>
+            </div>
             <div className="button-container" style={{marginTop:30}}>
                 {customerId &&
                 stylistId &&
-                services 
+                appDate &&
+                selectedServiceIds
                 ? <Button
                     className="header-button"
                     size="md"
