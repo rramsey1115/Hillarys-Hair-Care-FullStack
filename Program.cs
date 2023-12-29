@@ -430,7 +430,7 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
     }).ToList();
 });
 
-// post appointmentService 
+// post new Service
 app.MapPost("/api/services", (HillarysHairCareDbContext db, Service appService) => {
     try
     {
