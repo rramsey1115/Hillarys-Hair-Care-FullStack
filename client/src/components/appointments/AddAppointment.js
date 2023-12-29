@@ -5,7 +5,6 @@ import { getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
     const [stylistsOpen, setStylistsOpen] = useState(false);
@@ -62,7 +61,7 @@ export const AddAppointment = () => {
                             <DropdownToggle caret size="md">{customerName}</DropdownToggle>
                             <DropdownMenu color="dark">
                                 {customers.map(c => <DropdownItem 
-                                    key={c.id} 
+                                    key={c.id}
                                     value={c.id}
                                     name={c.name}
                                     onClick={(e) => {setCustomerId(e.target.value * 1);setCustomerName(e.target.name)}}
