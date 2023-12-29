@@ -183,7 +183,7 @@ export const AddAppointment = () => {
                     className="header-button"
                     size="md"
                     onClick={(e) => handleSubmitForm()}
-                    >Submit</Button> 
+                    >Submit</Button>
                 : <Button
                     disabled
                     className="header-button"
