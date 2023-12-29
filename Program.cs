@@ -430,20 +430,6 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
     }).ToList();
 });
 
-// post new Service
-app.MapPost("/api/services", (HillarysHairCareDbContext db, Service appService) => {
-    try
-    {
-        db.Services.Add(appService);
-        db.SaveChanges();
-        return Results.Created($"/api/services/{appService.Id}", appService);
-    }
-    catch (Exception ex)
-    {
-        return Results.NotFound($"Bad request: {ex}");
-    }
-});
-
 // Get sercvice by id
 app.MapGet("/api/services/{id}", (HillarysHairCareDbContext db, int id) => {
     try
@@ -465,6 +451,36 @@ app.MapGet("/api/services/{id}", (HillarysHairCareDbContext db, int id) => {
     {
         return Results.NotFound($"Bad data given: {ex}");
     }
+});
+
+// post new AppointmetService
+app.MapPost("/api/appointmentservices", (HillarysHairCareDbContext db, AppointmentService appService) => {
+    try
+    {
+        db.AppointmentServices.Add(appService);
+        db.SaveChanges();
+        return Results.Created($"/api/appointmentservices/{appService.Id}", appService);
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad request: {ex}");
+    }
+});
+
+// get all appointmentservices
+app.MapGet("/api/appointmentservices", (HillarysHairCareDbContext db) => {
+    return db.AppointmentServices.OrderBy(appServ => appServ.Id).Include(appServ => appServ.Service).Select(appServ => new AppointmentServiceDTO
+    {
+        Id = appServ.Id,
+        ServiceId = appServ.ServiceId,
+        AppointmentId = appServ.AppointmentId,
+        Service = new ServiceDTO
+        {
+            Id = appServ.Service.Id,
+            Name = appServ.Service.Name,
+            Price = appServ.Service.Price
+        }
+    }).ToList();
 });
 
 app.Run();
