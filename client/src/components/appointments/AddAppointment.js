@@ -17,7 +17,7 @@ export const AddAppointment = () => {
     const [allServices, setAllServices] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [stylists, setStylists] = useState([]);
-    const [checkedState, setCheckedState] = useState(new Array(allServices?.length).fill(false));
+    const [checkedState, setCheckedState] = useState([]);
     const [total, setTotal] = useState(25);
 
     useEffect(() => {
@@ -25,6 +25,10 @@ export const AddAppointment = () => {
         getAndSetStylists();
         getAndSetServices();
     }, [])
+
+    useEffect(() => {
+        setCheckedState(new Array(allServices.length).fill(false));
+    }, [allServices])
 
     const getAndSetCustomers = () => {
         getAllCustomers().then(data => setCustomers(data));
@@ -34,8 +38,8 @@ export const AddAppointment = () => {
         getAllStylists().then(data => setStylists(data));
     }
 
-    const getAndSetServices = () => {
-        getAllServices().then(data => setAllServices(data));
+    const getAndSetServices = async () => {
+        await getAllServices().then(data => setAllServices(data));
     }
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
