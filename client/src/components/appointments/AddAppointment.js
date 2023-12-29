@@ -44,6 +44,7 @@ export const AddAppointment = () => {
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
     }
+    const navigate = useNavigate();
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
 
@@ -82,28 +83,36 @@ export const AddAppointment = () => {
         setTotal(totalPrice + 25);
     };
 
-    const navigate = useNavigate();
-
     const handleSubmitForm = async () => {
         let id = 0;
         const newApointmentObj = {
             "customerId": customerId,
             "stylistId" : stylistId,
-            "date": appDate,
-            "totalPrice": total
+            "date": appDate
         }
 
         await newAppointment(newApointmentObj).then(res => id = res.id);
-        console.log('res', id);
 
-        checkedState.map((cs, index) => cs === true ? getServiceById(index + 1).then(res => selectedServ.push(res)) : null);
-            
-        console.log('selectedServ', selectedServ);
+        let match = [];
 
-        selectedServ.map(sserv => 
+        for (let i = 0; i < checkedState.length; i++) {
+            if (checkedState[i] === true) {
+                let int = checkedState.indexOf(true, i);
+                // Check if the index is found and call the getServiceById method
+                if (int !== -1) {
+                    await getServiceById(int + 1).then(res => match.push(res));
+                }
+            }
+        }
+
+        match.map(sserv => 
         {
-            sserv.AppointmentId = id;
-            newAppointmentService(sserv)
+            let appointmentService = 
+            {
+                'appointmentId': id,
+                'serviceId': sserv.id
+            }
+            newAppointmentService(appointmentService);
         });
 
         navigate('/appointments');
@@ -166,7 +175,7 @@ export const AddAppointment = () => {
                             id={`custom-checkbox-${index}`}
                             name={service.name}
                             value={service.id}
-                            onChange={(e) => handleOnChange(index)}
+                            onChange={(e) => handleOnChange(index, e.target.value)}
                             /> {service.name} - ${service.price}
                     </div>)}
                 </fieldset>
