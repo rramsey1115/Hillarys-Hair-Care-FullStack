@@ -3,6 +3,7 @@ import { PastApp } from "./PastApp"
 import { Button } from "reactstrap"
 import { getAllAppointments } from "../../data/AppointmentsData"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const AppointmentsList = () => {
     const [allAppointments, setAllAppointments] = useState([]);
@@ -13,6 +14,8 @@ export const AppointmentsList = () => {
         getAllAppointments().then(data => setAllAppointments(data))
     }
 
+    const navigate = useNavigate();
+
     return (
     <div className="container">
         <div className="header">
@@ -20,6 +23,7 @@ export const AppointmentsList = () => {
             <Button
                 className="header-button"
                 size="md"
+                onClick={(e) => navigate('add')}
                 >New +
             </Button>
         </div>

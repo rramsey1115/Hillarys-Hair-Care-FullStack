@@ -139,7 +139,7 @@ namespace HillarysHairCare.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("AppointmentService");
+                    b.ToTable("AppointmentServices");
 
                     b.HasData(
                         new

@@ -257,7 +257,6 @@ app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) 
     {
         return Results.BadRequest($"Bad data submitted: {ex}");
     }
-
 });
 
 // Get Stylist appointment by stylistId
@@ -406,6 +405,20 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) =>
     }
 });
 
+// Add/Post new Appointment
+app.MapPost("/api/appointments", (HillarysHairCareDbContext db, Appointment appointment) => {
+    try
+    {
+        db.Appointments.Add(appointment);
+        db.SaveChanges();
+        return Results.Created($"/api/appointments/{appointment.Id}", appointment);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
+
 // Get all Services
 app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
 {
@@ -415,6 +428,87 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
         Name = s.Name,
         Price = s.Price
     }).ToList();
+});
+
+// Get sercvice by id
+app.MapGet("/api/services/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        Service foundS = db.Services.FirstOrDefault(s => s.Id == id);
+
+        if (foundS == null)
+        {
+            return Results.NotFound("No appointment with given id");
+        }
+
+        return Results.Ok(new ServiceDTO {
+            Id = foundS.Id,
+            Name = foundS.Name,
+            Price = foundS.Price
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad data given: {ex}");
+    }
+});
+
+// post new AppointmetService
+app.MapPost("/api/appointmentservices", (HillarysHairCareDbContext db, AppointmentService appService) => {
+    try
+    {
+        db.AppointmentServices.Add(appService);
+        db.SaveChanges();
+        return Results.Created($"/api/appointmentservices/{appService.Id}", appService);
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad request: {ex}");
+    }
+});
+
+// get all appointmentservices
+app.MapGet("/api/appointmentservices", (HillarysHairCareDbContext db) => {
+    return db.AppointmentServices.OrderBy(appServ => appServ.Id).Include(appServ => appServ.Service).Select(appServ => new AppointmentServiceDTO
+    {
+        Id = appServ.Id,
+        ServiceId = appServ.ServiceId,
+        AppointmentId = appServ.AppointmentId,
+        Service = new ServiceDTO
+        {
+            Id = appServ.Service.Id,
+            Name = appServ.Service.Name,
+            Price = appServ.Service.Price
+        }
+    }).ToList();
+});
+
+// get appointmentService by Id
+app.MapGet("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+    AppointmentService foundAppServ = db.AppointmentServices.Include(aps => aps.Service).SingleOrDefault(aps => aps.Id == id);
+        if (foundAppServ == null)
+        {
+            return Results.NotFound("No matching id found");
+        }
+        return Results.Ok(new AppointmentServiceDTO
+        {
+            Id = foundAppServ.Id,
+            AppointmentId = foundAppServ.AppointmentId,
+            ServiceId = foundAppServ.ServiceId,
+            Service = new ServiceDTO
+            {
+                Id = foundAppServ.Service.Id,
+                Name = foundAppServ.Service.Name,
+                Price = foundAppServ.Service.Price
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Not found: {ex}");
+    }
 });
 
 app.Run();

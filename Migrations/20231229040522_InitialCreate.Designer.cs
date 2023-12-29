@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HillarysHairCare.Migrations
 {
     [DbContext(typeof(HillarysHairCareDbContext))]
-    [Migration("20231220175527_InitialCreate")]
+    [Migration("20231229040522_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace HillarysHairCare.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("AppointmentService");
+                    b.ToTable("AppointmentServices");
 
                     b.HasData(
                         new

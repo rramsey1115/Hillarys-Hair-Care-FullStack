@@ -83,7 +83,7 @@ namespace HillarysHairCare.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentService",
+                name: "AppointmentServices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -93,15 +93,15 @@ namespace HillarysHairCare.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppointmentService", x => x.Id);
+                    table.PrimaryKey("PK_AppointmentServices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppointmentService_Appointments_AppointmentId",
+                        name: "FK_AppointmentServices_Appointments_AppointmentId",
                         column: x => x.AppointmentId,
                         principalTable: "Appointments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AppointmentService_Services_ServiceId",
+                        name: "FK_AppointmentServices_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
@@ -167,7 +167,7 @@ namespace HillarysHairCare.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AppointmentService",
+                table: "AppointmentServices",
                 columns: new[] { "Id", "AppointmentId", "ServiceId" },
                 values: new object[,]
                 {
@@ -201,20 +201,20 @@ namespace HillarysHairCare.Migrations
                 column: "StylistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentService_AppointmentId",
-                table: "AppointmentService",
+                name: "IX_AppointmentServices_AppointmentId",
+                table: "AppointmentServices",
                 column: "AppointmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentService_ServiceId",
-                table: "AppointmentService",
+                name: "IX_AppointmentServices_ServiceId",
+                table: "AppointmentServices",
                 column: "ServiceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppointmentService");
+                name: "AppointmentServices");
 
             migrationBuilder.DropTable(
                 name: "Appointments");
