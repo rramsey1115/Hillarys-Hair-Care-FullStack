@@ -483,4 +483,32 @@ app.MapGet("/api/appointmentservices", (HillarysHairCareDbContext db) => {
     }).ToList();
 });
 
+// get appointmentService by Id
+app.MapGet("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+    AppointmentService foundAppServ = db.AppointmentServices.Include(aps => aps.Service).SingleOrDefault(aps => aps.Id == id);
+        if (foundAppServ == null)
+        {
+            return Results.NotFound("No matching id found");
+        }
+        return Results.Ok(new AppointmentServiceDTO
+        {
+            Id = foundAppServ.Id,
+            AppointmentId = foundAppServ.AppointmentId,
+            ServiceId = foundAppServ.ServiceId,
+            Service = new ServiceDTO
+            {
+                Id = foundAppServ.Service.Id,
+                Name = foundAppServ.Service.Name,
+                Price = foundAppServ.Service.Price
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Not found: {ex}");
+    }
+});
+
 app.Run();
