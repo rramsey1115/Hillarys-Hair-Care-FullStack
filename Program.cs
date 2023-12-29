@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -429,6 +428,20 @@ app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
         Name = s.Name,
         Price = s.Price
     }).ToList();
+});
+
+// post appointmentService 
+app.MapPost("/api/services", (HillarysHairCareDbContext db, Service appService) => {
+    try
+    {
+        db.Services.Add(appService);
+        db.SaveChanges();
+        return Results.Created($"/api/services/{appService.Id}", appService);
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad request: {ex}");
+    }
 });
 
 // Get sercvice by id

@@ -5,6 +5,7 @@ import { getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
+import { newAppointment } from "../../data/AppointmentsData";
 
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
@@ -19,6 +20,7 @@ export const AddAppointment = () => {
     const [stylists, setStylists] = useState([]);
     const [checkedState, setCheckedState] = useState([]);
     const [total, setTotal] = useState(25);
+    const [selectedServ, setSelectedServ] = useState([]);
 
     useEffect(() => {
         getAndSetCustomers();
@@ -77,6 +79,16 @@ export const AddAppointment = () => {
         );
         setTotal(totalPrice + 25);
     };
+
+    const handleSubmitForm = () => {
+        const newApointmentObj = {
+            "customerId": customerId,
+            "stylistId" : stylistId,
+            "date": appDate,
+            "appointmentServices": [...selectedServ]
+        }
+        newAppointment()
+    }
 
     return (
     <div className="container">
@@ -146,8 +158,8 @@ export const AddAppointment = () => {
             <div className="button-container" style={{marginTop:30}}>
                 {customerId &&
                 stylistId &&
-                appDate
-                
+                appDate &&
+                total > 25
                 ? <Button
                     className="header-button"
                     size="md"
