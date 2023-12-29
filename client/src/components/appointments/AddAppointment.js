@@ -89,14 +89,17 @@ export const AddAppointment = () => {
         const newApointmentObj = {
             "customerId": customerId,
             "stylistId" : stylistId,
-            "date": appDate
+            "date": appDate,
+            "totalPrice": total
         }
 
         await newAppointment(newApointmentObj).then(res => id = res.id);
         console.log('res', id);
 
-        checkedState.map(cs => cs === true ? getServiceById(cs.indexOf() + 1).then(data => selectedServ.push(data)) : null);
+        checkedState.map((cs, index) => cs === true ? getServiceById(index + 1).then(res => selectedServ.push(res)) : null);
             
+        console.log('selectedServ', selectedServ);
+
         selectedServ.map(sserv => 
         {
             sserv.AppointmentId = id;
@@ -152,7 +155,7 @@ export const AddAppointment = () => {
                         timeIntervals={60}
                         filterDate={isWeekday}
                         filterTime={filterTime}
-                        selected={new Date()}
+                        selected={appDate}
                         onChange={date => setAppDate(date)}
                         />
                 </fieldset>
@@ -175,7 +178,7 @@ export const AddAppointment = () => {
                 {customerId &&
                 stylistId &&
                 appDate &&
-                selectedServ
+                total > 25
                 ? <Button
                     className="header-button"
                     size="md"

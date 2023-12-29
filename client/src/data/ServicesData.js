@@ -3,7 +3,7 @@ export const getAllServices = () => {
 }
 
 export const getServiceById = (id) => {
-    return fetch(`/api/serivces/${id}`).then(res => res.json());
+    return fetch(`/api/services/${id}`).then(res => res.json());
 }
 
 export const addService = (service) => {
