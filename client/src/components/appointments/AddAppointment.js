@@ -4,7 +4,7 @@ import { getAllCustomers } from "../../data/CustomersData";
 import { getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getAllServices } from "../../data/ServicesData";
+import { getAllServices, getServiceById } from "../../data/ServicesData";
 
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
@@ -17,7 +17,8 @@ export const AddAppointment = () => {
     const [allServices, setAllServices] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [stylists, setStylists] = useState([]);
-    const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+    const [checkedState, setCheckedState] = useState(new Array(allServices?.length).fill(false));
+    const [total, setTotal] = useState(25);
 
     useEffect(() => {
         getAndSetCustomers();
@@ -54,9 +55,24 @@ export const AddAppointment = () => {
         return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
     }
 
-    const totalPrice = () => {
-        let total = 25;
-    }
+    const handleOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+          index === position ? !item : item
+        );
+    
+        setCheckedState(updatedCheckedState);
+    
+        const totalPrice = updatedCheckedState.reduce(
+          (sum, currentState, index) => {
+            if (currentState === true) {
+              return sum + allServices[index].price;
+            }
+            return sum;
+          },
+          0
+        );
+        setTotal(totalPrice + 25);
+    };
 
     return (
     <div className="container">
@@ -110,24 +126,24 @@ export const AddAppointment = () => {
                 </fieldset>
                 <fieldset>
                     <h5>Select Services</h5>
-                    {allServices.map(service => <div key={service.id}>
+                    {allServices.map((service, index) => <div key={service.id}>
                         <Input type="checkbox"
-                            id="service"
+                            id={`custom-checkbox-${index}`}
                             name={service.name}
                             value={service.id}
-                            // onSelect={}
+                            onChange={() => handleOnChange(index)}
                             /> {service.name} - ${service.price}
                     </div>)}
                 </fieldset>
             </form>
             <div className="price-container">
-                <h5>Total Price: {totalPrice}</h5>
+                <h5>Total Price: ${total}.00</h5>
             </div>
             <div className="button-container" style={{marginTop:30}}>
                 {customerId &&
                 stylistId &&
-                appDate &&
-                selectedServiceIds
+                appDate
+                
                 ? <Button
                     className="header-button"
                     size="md"
