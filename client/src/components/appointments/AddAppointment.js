@@ -5,7 +5,8 @@ import { getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
-import { newAppointment } from "../../data/AppointmentsData";
+import { newAppointment, newAppointmentService } from "../../data/AppointmentsData";
+import { useNavigate } from "react-router-dom";
 
 export const AddAppointment = () => {
     const [customersOpen, setCustomersOpen] = useState(false);
@@ -61,11 +62,11 @@ export const AddAppointment = () => {
         return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
     }
 
-    const handleOnChange = (position) => {
+    const handleOnChange = (position, id) => {
         const updatedCheckedState = checkedState.map((item, index) =>
           index === position ? !item : item
-        );
-    
+          );
+
         setCheckedState(updatedCheckedState);
     
         const totalPrice = updatedCheckedState.reduce(
@@ -80,14 +81,25 @@ export const AddAppointment = () => {
         setTotal(totalPrice + 25);
     };
 
-    const handleSubmitForm = () => {
+    const navigate = useNavigate();
+
+    const handleSubmitForm = async () => {
+        let id = 0;
         const newApointmentObj = {
             "customerId": customerId,
             "stylistId" : stylistId,
-            "date": appDate,
-            "appointmentServices": [...selectedServ]
+            "date": appDate
         }
-        newAppointment()
+
+        await newAppointment(newApointmentObj).then(res => id = res.id);
+        console.log('res', id);
+
+        selectedServ.map(sserv => 
+            {
+                sserv.AppointmentId = id;
+                newAppointmentService(sserv)
+            });
+        navigate('/appointments');
     }
 
     return (
@@ -107,7 +119,7 @@ export const AddAppointment = () => {
                                     key={c.id}
                                     value={c.id}
                                     name={c.name}
-                                    onClick={(e) => {setCustomerId(e.target.value * 1);setCustomerName(e.target.name)}}
+                                    onClick={(e) => {setCustomerId(e.target.value * 1); setCustomerName(e.target.name)}}
                                     >{c.name}
                                 </DropdownItem>)}
                             </DropdownMenu>
@@ -147,7 +159,7 @@ export const AddAppointment = () => {
                             id={`custom-checkbox-${index}`}
                             name={service.name}
                             value={service.id}
-                            onChange={() => handleOnChange(index)}
+                            onChange={(e) => handleOnChange(index, e.target.value)}
                             /> {service.name} - ${service.price}
                     </div>)}
                 </fieldset>
@@ -159,7 +171,7 @@ export const AddAppointment = () => {
                 {customerId &&
                 stylistId &&
                 appDate &&
-                total > 25
+                selectedServ
                 ? <Button
                     className="header-button"
                     size="md"

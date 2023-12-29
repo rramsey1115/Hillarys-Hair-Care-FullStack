@@ -13,3 +13,11 @@ export const newAppointment = (appointmentObj) => {
         body: JSON.stringify(appointmentObj),
       }).then((res) => res.json());
 }
+
+export const newAppointmentService = (aps) => {
+    return fetch(`/api/appointmentservices`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(aps),
+      }).then((res) => res.json());
+}
