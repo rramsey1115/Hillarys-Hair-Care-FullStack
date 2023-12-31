@@ -1,5 +1,6 @@
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -114,6 +115,32 @@ app.MapPut("/api/stylists/{id}/deactivate", (HillarysHairCareDbContext db, int i
     matchedStylist.IsActive = !matchedStylist.IsActive;
     db.SaveChanges();
     return Results.NoContent();
+});
+
+// Update/PUT stylist details
+app.MapPut("/api/stylists", (HillarysHairCareDbContext db, Stylist updatedStylist) => {
+    try
+    {
+        Stylist foundS = db.Stylists.SingleOrDefault(s => s.Id == updatedStylist.Id);
+
+        if (foundS == null)
+        {
+            return Results.NotFound("No stylist with matching id");
+        }
+
+        foundS.Name = updatedStylist.Name;
+        foundS.Email = updatedStylist.Email;
+        foundS.Bio = updatedStylist.Bio;
+        foundS.ImgUrl = updatedStylist.ImgUrl;
+
+        db.SaveChanges();
+
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad data request: {ex}");
+    }
 });
 
 // Add/Post new stylist

@@ -36,7 +36,7 @@ function App() {
         <Route path="edit"><Route path=":id" element={<EditAppointment /> } /></Route> 
         <Route path="add" element={<AddAppointment />} />
       </Route>
-    </Routes> 
+    </Routes>
   </BrowserRouter>
   );
 }
