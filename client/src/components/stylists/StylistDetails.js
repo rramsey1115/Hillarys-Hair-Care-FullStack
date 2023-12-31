@@ -54,6 +54,7 @@ export const StylistDetails = () => {
             <div className="main-top">
                 <div className="top-left">
                     <h3>{stylist.name}</h3>
+                    <img className="profile-img" src={stylist.imgUrl} alt="stylist headshot"/>
                 </div>
                 <div className="top-right">
                     <Table>
@@ -66,8 +67,17 @@ export const StylistDetails = () => {
                                 <th>Email</th>
                                 <td>{stylist.email}</td>
                             </tr>
+                            <tr>
+                                <th>About</th>
+                                <td>{stylist.bio}</td>
+                            </tr>
+                            <tr>
+                                <th>Active</th>
+                                <td>{stylist.isActive ? "Yes" : "No"}</td>
+                            </tr>
                         </tbody>
-                    </Table><br/>
+                    </Table>
+                    <Button className="header-button">Edit Stylist</Button>
                 </div>
             </div>
             <div className="main-bottom">
