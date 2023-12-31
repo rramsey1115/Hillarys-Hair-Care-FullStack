@@ -1,3 +1,4 @@
+using System.Data;
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
@@ -132,6 +133,7 @@ app.MapPut("/api/stylists", (HillarysHairCareDbContext db, Stylist updatedStylis
         foundS.Email = updatedStylist.Email;
         foundS.Bio = updatedStylist.Bio;
         foundS.ImgUrl = updatedStylist.ImgUrl;
+        foundS.IsActive = updatedStylist.IsActive;
 
         db.SaveChanges();
 

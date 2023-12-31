@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { editStylist, getStylistById } from "../../data/StylistsData";
 import { useEffect, useState } from "react";
-import { Button, Form, Input } from "reactstrap";
+import { Button, Form, FormGroup, Input, InputGroup, Label } from "reactstrap";
 
 export const EditStylist = () => {
     const id = useParams().id;
@@ -18,7 +18,8 @@ export const EditStylist = () => {
             "name": stylist?.name,
             "email": stylist?.email,
             "bio": stylist?.bio,
-            "imgUrl": stylist?.imgUrl
+            "imgUrl": stylist?.imgUrl,
+            "isActive": stylist?.isActive
         });
      }, [stylist]);
 
@@ -77,9 +78,42 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
+                <fieldset>
+                    <legend>
+                        Radio Buttons
+                    </legend>
+                    <FormGroup check>
+                        <Input 
+                                name="active" 
+                                type="radio"
+                                checked={updatedStylist?.isActive === true}
+                                onChange={(e) => {
+                                    const copy = {...updatedStylist};
+                                    copy.isActive = !updatedStylist.isActive;
+                                    setUpdatedStylist(copy);
+                                }}/>
+                        <Label check>
+                            Active
+                        </Label>
+                    </FormGroup>
+                    <FormGroup check>
+                        <Input 
+                                name="active" 
+                                type="radio"
+                                checked={updatedStylist?.isActive === false}
+                                onChange={(e) => {
+                                    const copy = {...updatedStylist};
+                                    copy.isActive = !updatedStylist.isActive;
+                                    setUpdatedStylist(copy);
+                                }}/>
+                        <Label check>
+                            Inactive
+                        </Label>
+                    </FormGroup>
+                </fieldset>
             </Form>
             <div className="button-container">
-                <Button className="header-button" onClick={(e) => handleSubmit()}>Submit</Button>
+                <Button className="header-button" onClick={(e) => handleSubmit()}>Save</Button>
             </div>
         </div>
     </div>)
