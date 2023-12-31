@@ -38,7 +38,7 @@ export const EditStylist = () => {
         </div>
         <div className="main">
             <Form>
-                <fieldset>Name
+                <fieldset><h5>Name</h5>
                     <Input 
                         type="text"
                         value={updatedStylist?.name}
@@ -48,7 +48,7 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
-                <fieldset>Email
+                <fieldset><h5>Email</h5>
                     <Input 
                         type="email"
                         value={updatedStylist?.email}
@@ -58,7 +58,7 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
-                <fieldset>Image URL
+                <fieldset><h5>Image URL</h5>
                     <Input 
                         type="url"
                         value={updatedStylist?.imgUrl}
@@ -68,7 +68,7 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
-                <fieldset>Bio
+                <fieldset><h5>Bio</h5>
                     <Input 
                         type="textarea"
                         value={updatedStylist?.bio}
@@ -78,10 +78,7 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
-                <fieldset>
-                    <legend>
-                        Radio Buttons
-                    </legend>
+                <fieldset><h5>Currently</h5>
                     <FormGroup check>
                         <Input 
                                 name="active" 

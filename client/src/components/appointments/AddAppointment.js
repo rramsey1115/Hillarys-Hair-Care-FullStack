@@ -44,6 +44,7 @@ export const AddAppointment = () => {
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
     }
+    
     const navigate = useNavigate();
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
