@@ -5,15 +5,27 @@ import { Button, Form, Input } from "reactstrap";
 
 export const EditStylist = () => {
     const id = useParams().id;
-    const [stylist, setStylist] = useState();
+    const [stylist, setStylist] = useState({});
     const [updatedStylist, setUpdatedStylist] = useState({});
 
-    useEffect(() => { getStylistById(id).then(data => setStylist(data)); }, [id]);
+    useEffect(() => { 
+        getStylistById(id).then(data => setStylist(data));
+     }, [id]);
+
+     useEffect(() => {
+        setUpdatedStylist({
+            "id": stylist?.id,
+            "name": stylist?.name,
+            "email": stylist?.email,
+            "bio": stylist?.bio,
+            "imgUrl": stylist?.imgUrl
+        });
+     }, [stylist]);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        // await editStylist(updatedStylist);
+        await editStylist(updatedStylist);
         navigate( `/stylists/${id}`);
     }
 
@@ -27,22 +39,42 @@ export const EditStylist = () => {
                 <fieldset>Name
                     <Input 
                         type="text"
-                        value={stylist?.name}/>
+                        value={updatedStylist?.name}
+                        onChange={(e) => {
+                            const copy = {...updatedStylist};
+                            copy.name = e.target.value;
+                            setUpdatedStylist(copy);
+                        }}/>
                 </fieldset>
                 <fieldset>Email
                     <Input 
                         type="email"
-                        value={stylist?.email}/>
+                        value={updatedStylist?.email}
+                        onChange={(e) => {
+                            const copy = {...updatedStylist};
+                            copy.email = e.target.value;
+                            setUpdatedStylist(copy);
+                        }}/>
                 </fieldset>
                 <fieldset>ImgUrl
                     <Input 
                         type="text"
-                        value={stylist?.imgUrl}/>
+                        value={updatedStylist?.imgUrl}
+                        onChange={(e) => {
+                            const copy = {...updatedStylist};
+                            copy.imgUrl = e.target.value;
+                            setUpdatedStylist(copy);
+                        }}/>
                 </fieldset>
                 <fieldset>Bio
                     <Input 
                         type="textarea"
-                        value={stylist?.bio}/>
+                        value={updatedStylist?.bio}
+                        onChange={(e) => {
+                            const copy = {...updatedStylist};
+                            copy.bio = e.target.value;
+                            setUpdatedStylist(copy);
+                        }}/>
                 </fieldset>
             </Form>
             <div className="button-container">
