@@ -77,7 +77,7 @@ export const StylistDetails = () => {
                             </tr>
                         </tbody>
                     </Table>
-                    <Button className="header-button">Edit Stylist</Button>
+                    <Button className="header-button" value={stylist.id} onClick={(e) => navigate(`/stylists/edit/${e.target.value}`)}>Edit Stylist</Button>
                 </div>
             </div>
             <div className="main-bottom">
