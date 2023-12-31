@@ -58,9 +58,9 @@ export const EditStylist = () => {
                             setUpdatedStylist(copy);
                         }}/>
                 </fieldset>
-                <fieldset>ImgUrl
+                <fieldset>Image URL
                     <Input 
-                        type="text"
+                        type="url"
                         value={updatedStylist?.imgUrl}
                         onChange={(e) => {
                             const copy = {...updatedStylist};
