@@ -33,5 +33,5 @@ export const editStylist = (stylistObj) => {
         method: "PUT",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify(stylistObj),
-    }).then(res => res.json());
+    });
 }

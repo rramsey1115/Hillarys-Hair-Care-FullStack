@@ -24,7 +24,8 @@ export const EditStylist = () => {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
+        console.log('updatedStylist', updatedStylist);
         await editStylist(updatedStylist);
         navigate( `/stylists/${id}`);
     }
@@ -78,7 +79,7 @@ export const EditStylist = () => {
                 </fieldset>
             </Form>
             <div className="button-container">
-                <Button className="header-button" onClick={(e) => {handleSubmit(e)}}>Submit</Button>
+                <Button className="header-button" onClick={(e) => handleSubmit()}>Submit</Button>
             </div>
         </div>
     </div>)
