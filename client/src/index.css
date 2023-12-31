@@ -52,3 +52,11 @@ code {
 .button-container {
   margin-top: 20px;
 }
+
+textarea {
+  height: 100px;
+}
+
+fieldset {
+  margin-bottom: 10px;
+}
