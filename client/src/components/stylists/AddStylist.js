@@ -49,21 +49,23 @@ return (
                         <Input type="textarea" value={stylistBio} onChange={(e) => setStylistBio(e.target.value)}/> 
                     </fieldset>
                 </form>
-                {stylistName &&
-                stylistEmail &&
-                stylistImg &&
-                stylistBio 
-                ? <Button
-                    className="header-button"
-                    size="md"
-                    onClick={handleSubmit}
-                    >Submit</Button> 
-                : <Button
-                    disabled
-                    className="header-button"
-                    size="md"
-                    >Submit</Button>
-                }
+                <div className="button-container">
+                    {stylistName &&
+                    stylistEmail &&
+                    stylistImg &&
+                    stylistBio 
+                    ? <Button
+                        className="header-button"
+                        size="md"
+                        onClick={handleSubmit}
+                        >Submit</Button> 
+                    : <Button
+                        disabled
+                        className="header-button"
+                        size="md"
+                        >Submit</Button>
+                    }
+                </div>
             </div>
         </div>
     </div>

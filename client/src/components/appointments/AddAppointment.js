@@ -183,7 +183,7 @@ export const AddAppointment = () => {
             <div className="price-container">
                 <h5>Total Price: ${total}.00</h5>
             </div>
-            <div className="button-container" style={{marginTop:30}}>
+            <div className="button-container">
                 {customerId &&
                 stylistId &&
                 appDate &&

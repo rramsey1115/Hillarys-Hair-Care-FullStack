@@ -36,19 +36,21 @@ return (
                         <Input type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)}/> 
                     </fieldset>
                 </form>
-                {customerName &&
-                customerEmail
-                ? <Button
-                    className="header-button"
-                    size="md"
-                    onClick={handleSubmit}
-                    >Submit</Button> 
-                : <Button
-                    disabled
-                    className="header-button"
-                    size="md"
-                    >Submit</Button>
-                }
+                <div className="button-container">
+                    {customerName &&
+                    customerEmail
+                    ? <Button
+                        className="header-button"
+                        size="md"
+                        onClick={handleSubmit}
+                        >Submit</Button> 
+                    : <Button
+                        disabled
+                        className="header-button"
+                        size="md"
+                        >Submit</Button>
+                    }
+                </div>
             </div>
         </div>
     </div>
