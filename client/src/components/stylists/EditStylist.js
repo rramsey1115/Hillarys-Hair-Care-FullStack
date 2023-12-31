@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom"
-import { getStylistById } from "../../data/StylistsData";
+import { useNavigate, useParams } from "react-router-dom"
+import { editStylist, getStylistById } from "../../data/StylistsData";
 import { useEffect, useState } from "react";
 import { Button, Form, Input } from "reactstrap";
 
@@ -10,8 +10,11 @@ export const EditStylist = () => {
 
     useEffect(() => { getStylistById(id).then(data => setStylist(data)); }, [id]);
 
-    const handleSubmit = (e) => {
-        
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        // await editStylist(updatedStylist);
+        navigate( `/stylists/${id}`);
     }
 
     return(
