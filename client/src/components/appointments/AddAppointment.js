@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
-import { getAllStylists } from "../../data/StylistsData";
+import { getActiveStylists, getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -38,13 +38,13 @@ export const AddAppointment = () => {
     }
 
     const getAndSetStylists = () => {
-        getAllStylists().then(data => setStylists(data));
+        getActiveStylists().then(data => setStylists(data));
     }
 
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
     }
-    
+
     const navigate = useNavigate();
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
@@ -151,7 +151,7 @@ export const AddAppointment = () => {
                                 key={s.id} 
                                 value={s.id}
                                 name={s.name}
-                                onClick={(e) => {setStylistId(e.target.value * 1);setStylistName(e.target.name)}}
+                                onClick={(e) => {setStylistId(e.target.value * 1); setStylistName(e.target.name)}}
                                 >{s.name}
                             </DropdownItem>)}
                         </DropdownMenu>

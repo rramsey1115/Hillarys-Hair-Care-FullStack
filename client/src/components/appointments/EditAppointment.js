@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Label } from "reactstrap";
-import { getAllCustomers } from "../../data/CustomersData";
-import { getAllStylists } from "../../data/StylistsData";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Label } from "reactstrap";
+import { getActiveStylists, getAllStylists } from "../../data/StylistsData";
 import { getAllServices } from "../../data/ServicesData";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const EditAppointment = () => {
     const appointmentId = useParams().id;
-    const [customersOpen, setCustomersOpen] = useState(false);
     const [stylistsOpen, setStylistsOpen] = useState(false);
     const [appointment, setAppointment] = useState({});
     const [allServices, setAllServices] = useState([]);
-    const [allCustomers, setAllCustomers] = useState([]);
     const [allStylists, setAllStylists] = useState([]);
     const [checkedState, setCheckedState] = useState([]);
     const [updatedServices, setUpdatedServices] = useState([]);
@@ -20,7 +19,6 @@ export const EditAppointment = () => {
     const [updatedApp, setUpdatedApp] = useState({"id": 0, "customerId": 0, "stylistId": 0, "date": ""});
 
     useEffect(() => {
-        getAndSetCustomers();
         getAndSetStylists();
         getAndSetServices();
     }, [appointmentId]);
@@ -30,26 +28,23 @@ export const EditAppointment = () => {
     }, [allServices]);
 
     useEffect(() => {
-        getApointmentById(appointmentId).then((data) => setAppointment(data))
+        getApointmentById(appointmentId).then((data) => setAppointment(data));
     }, [appointmentId]);
 
     useEffect(() => {
         setUpdatedApp(
             {
-            "id": appointmentId,
+            "id": parseInt(appointmentId),
             "customerId": appointment?.customerId,
             "stylistId": appointment?.stylistId,
             "date": appointment?.date
             }
-        )
-    }, [appointmentId])
-
-    const getAndSetCustomers = () => {
-        getAllCustomers().then(data => setAllCustomers(data));
-    }
+        );
+        // getDate(appointment?.date);
+    }, [appointment])
 
     const getAndSetStylists = () => {
-        getAllStylists().then(data => setAllStylists(data));
+        getActiveStylists().then(data => setAllStylists(data));
     }
 
     const getAndSetServices = async () => {
@@ -57,8 +52,6 @@ export const EditAppointment = () => {
     }
     
     const navigate = useNavigate();
-
-    const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
 
     const toggleStylists = () => setStylistsOpen((prevState => ! prevState));
 
@@ -95,17 +88,47 @@ export const EditAppointment = () => {
         setTotal(totalPrice + 25);
     };
 
-    return (appointment == null ? null :
+    console.log('appointment', appointment);
+
+    return (appointment.id === null ? null :
     <div className="container">
         <div className="header">
-            <h1>Edit Appointment</h1>
+            <h1>Edit {appointment.customer?.name}'s Appointment</h1>
         </div>
         <div className="main">
-            <h3>{appointment.customer?.name}'s Appointment</h3>
+            <h5>Appointment Id: {appointment?.id}</h5>
             <Form>
                 <FormGroup tag="fieldset">
                     <Label /><h5>Stylist</h5>
-                        
+                    <Dropdown isOpen={stylistsOpen} toggle={toggleStylists} direction="down">
+                        <DropdownToggle caret size="md">{appointment.stylist?.name}</DropdownToggle>
+                        <DropdownMenu color="dark">
+                            {allStylists.map(s => <DropdownItem
+                                key={s.id}
+                                value={s.id}
+                                name={s.name}
+                                onClick={(e) => {const copy = {...updatedApp}; copy.stylistId = e.target.value; setUpdatedApp(copy)}}
+                                >{s.name}
+                            </DropdownItem>)}
+                        </DropdownMenu>
+                    </Dropdown>  
+                </FormGroup>
+                <FormGroup tag="fieldset">
+                    <Label /><h5>Date</h5>
+                    {updatedApp.date ?
+                    <DatePicker
+                        showIcon
+                        showTimeSelect
+                        timeIntervals={60}
+                        filterDate={isWeekday}
+                        filterTime={filterTime}
+                        selected={ new Date(updatedApp.date) }
+                        onChange={(date) => {
+                            const copy = {...updatedApp};
+                            copy.date = new Date(date);
+                            setUpdatedApp(copy)}}
+                    />
+                    : null }  
                 </FormGroup>
             </Form>
         </div>
