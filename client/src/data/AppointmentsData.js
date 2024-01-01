@@ -21,3 +21,9 @@ export const newAppointmentService = (aps) => {
         body: JSON.stringify(aps),
       }).then((res) => res.json());
 }
+
+export const deleteAppServices = (appId) => {
+    return fetch(`/api/appointmentservices/${appId}`, {
+        method: "DELETE"
+    });
+}

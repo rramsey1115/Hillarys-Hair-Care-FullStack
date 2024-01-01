@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { getApointmentById, newAppointmentService } from "../../data/AppointmentsData";
+import { deleteAppService, deleteAppServices, getApointmentById, newAppointmentService } from "../../data/AppointmentsData";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -123,13 +123,8 @@ export const EditAppointment = () => {
 
     const handleSubmitForm = async () => {
         let id = 0;
-        const newApointmentObj = {
-            "customerId": customerId,
-            "stylistId" : stylistId,
-            "date": appDate
-        }
 
-        await updateApp(newApointmentObj).then(res => id = res.id);
+        await deleteAppServices(appointment.id);
 
         let match = [];
 

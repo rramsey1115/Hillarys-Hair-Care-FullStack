@@ -581,4 +581,25 @@ app.MapGet("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int i
     }
 });
 
+// Delete appointmentService by AppointmentId
+app.MapDelete("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        var foundAppS = db.AppointmentServices.Where(s => s.AppointmentId == id);
+        if (foundAppS == null)
+        {
+        return Results.NotFound($"No appointments found with appointmentId {id}");
+        }
+
+        db.AppointmentServices.RemoveRange(foundAppS);
+        db.SaveChanges();
+        return Results.NoContent();
+
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"No results found: {ex}");
+    }
+});
+
 app.Run();
