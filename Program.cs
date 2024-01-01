@@ -160,11 +160,6 @@ app.MapPut("/api/stylists", (HillarysHairCareDbContext db, Stylist updatedStylis
     }
 });
 
-// Update/PUT appointment details
-app.MapPut("/api/appointments/{id}", (HillarysHairCareDbContext db, Appointment appointment) => {
-    
-});
-
 // Add/Post new stylist
 app.MapPost("/api/stylists", (HillarysHairCareDbContext db, Stylist stylist) => {
     try
@@ -246,6 +241,20 @@ app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) =>
     }
 });
 
+// Add/Post new Customer
+app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) => {
+    try
+    {
+        db.Customers.Add(customer);
+        db.SaveChanges();
+        return Results.Created($"/api/customers/{customer.Id}", customer);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
+
 // Get Customer appointments by customerId
 app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int id) =>
 {
@@ -291,20 +300,6 @@ app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int
     catch (Exception ex)
     {
         return Results.NotFound(ex);
-    }
-});
-
-// Add/Post new Customer
-app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) => {
-    try
-    {
-        db.Customers.Add(customer);
-        db.SaveChanges();
-        return Results.Created($"/api/customers/{customer.Id}", customer);
-    }
-    catch (Exception ex)
-    {
-        return Results.BadRequest($"Bad data submitted: {ex}");
     }
 });
 
@@ -466,6 +461,31 @@ app.MapPost("/api/appointments", (HillarysHairCareDbContext db, Appointment appo
     catch (Exception ex)
     {
         return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
+
+// Update/PUT appointment details
+app.MapPut("/api/appointments/{id}", (HillarysHairCareDbContext db, Appointment appointment) => {
+    try
+    {
+        Appointment foundA = db.Appointments.SingleOrDefault(a => a.Id == appointment.Id);
+
+        if (foundA == null)
+        {
+            return Results.NotFound("No matching appointment id found");
+        }
+
+        foundA.StylistId = appointment.StylistId;
+        foundA.Date = appointment.Date;
+        
+        db.SaveChanges();
+        
+        return Results.NoContent();
+
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad request: {ex} ");
     }
 });
 
