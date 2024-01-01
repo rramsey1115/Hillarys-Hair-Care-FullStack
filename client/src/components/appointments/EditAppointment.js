@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const EditAppointment = () => {
     const appointmentId = useParams().id;
+    const navigate = useNavigate();
     const [appServices, setAppServices] = useState([]);
     const [stylistsOpen, setStylistsOpen] = useState(false);
     const [appointment, setAppointment] = useState({});
@@ -18,21 +19,31 @@ export const EditAppointment = () => {
     const [updatedServices, setUpdatedServices] = useState([]);
     const [total, setTotal] = useState(25);
     const [updatedApp, setUpdatedApp] = useState({"id": 0, "customerId": 0, "stylistId": 0, "date": ""});
-
+    
+    // sets services and available stylists
     useEffect(() => {
         getAndSetStylists();
         getAndSetServices();
     }, [appointmentId]);
 
+    // sets which checkboxes should be checked
     useEffect(() => {
         setCheckedState(new Array(allServices.length).fill(false));
     }, [allServices]);
 
+    // sets appointment object by id
     useEffect(() => {
         getApointmentById(appointmentId).then((data) => setAppointment(data));
     }, [appointmentId]);
 
     useEffect(() => {
+        const arr = [];
+        appointment.appointmentServices?.map(aserv => arr.push(aserv));
+        setAppServices(arr)
+    }, [appointment])
+
+    useEffect(() => {
+        // sets initial value of object we will edit on form
         setUpdatedApp(
             {
             "id": parseInt(appointmentId),
@@ -41,34 +52,42 @@ export const EditAppointment = () => {
             "date": appointment?.date
             }
         );
-        let updated = [];
-        for(let s in appointment.appointmentServices)
-        {
-            updated = checkedState.map((item, index) =>
-            index === s.serviceId ? !item : item
-            );
-        }
-        setCheckedState(updated)
-    }, [appointment])
+        getCheckedValues();
+    }, [appointment]);
 
+    const getCheckedValues = () => { 
+        if (appServices.length > 0)
+        {
+            let arr = [...checkedState];
+            for (let appS of appServices)
+                {
+                    arr[appS.serviceId -1] = true;
+                    console.log('arr', arr);
+                }
+        setCheckedState(arr);
+        }
+    }
+
+    // available stylists for dropdown
     const getAndSetStylists = () => {
         getActiveStylists().then(data => setAllStylists(data));
     }
 
+    // services for checkboxes
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
     }
-    
-    const navigate = useNavigate();
 
+    // controls stylists dropdown
     const toggleStylists = () => setStylistsOpen((prevState => ! prevState));
 
+    // allows only weekdays on datepicker
     const isWeekday = (date) => {
         const date1 = new Date(date);
         var day = date1.getDay();
         return day !== 0 && day !== 6;
     };
-
+    // allows only business hours on datepicker
     const filterTime = (time) => {
         const startTime = 9;
         const endTime = 17;
@@ -76,6 +95,7 @@ export const EditAppointment = () => {
         return selectedDate.getHours() <= endTime && selectedDate.getHours() >= startTime;
     }
 
+    // checkbox changes
     const handleOnChange = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
           index === position ? !item : item
@@ -96,7 +116,8 @@ export const EditAppointment = () => {
         setTotal(totalPrice + 25);
     };
 
-    console.log('appointment', appointment);
+    // console.log('appointment', appointment);
+    console.log('checkedS', checkedState);
 
     return (appointment.id === null ? null :
     <div className="container">
