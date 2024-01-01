@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { deleteAppService, deleteAppServices, getApointmentById, newAppointmentService } from "../../data/AppointmentsData";
+import { deleteAppServices, getApointmentById, newAppointmentService, updateAppointment } from "../../data/AppointmentsData";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -16,7 +16,6 @@ export const EditAppointment = () => {
     const [allServices, setAllServices] = useState([]);
     const [allStylists, setAllStylists] = useState([]);
     const [checkedState, setCheckedState] = useState([]);
-    const [updatedServices, setUpdatedServices] = useState([]);
     const [total, setTotal] = useState(25);
     const [updatedApp, setUpdatedApp] = useState({"id": 0, "customerId": 0, "stylistId": 0, "date": ""});
     
@@ -47,7 +46,6 @@ export const EditAppointment = () => {
         setUpdatedApp(
             {
             "id": parseInt(appointmentId),
-            "customerId": appointment?.customerId,
             "stylistId": appointment?.stylistId,
             "date": appointment?.date
             }
@@ -122,37 +120,38 @@ export const EditAppointment = () => {
     };
 
     const handleSubmitForm = async () => {
-        let id = 0;
+        // delete previous services for this appointment
+        await deleteAppServices(appointment.id * 1);
 
-        await deleteAppServices(appointment.id);
-
-        let match = [];
-
+        // find new services based on checkedState booleans
+        let matchArr = [];
         for (let i = 0; i < checkedState.length; i++) {
             if (checkedState[i] === true) {
                 let int = checkedState.indexOf(true, i);
                 // Check if the index is found and call the getServiceById method
                 if (int !== -1) {
-                    await getServiceById(int + 1).then(res => match.push(res));
+                    await getServiceById(int + 1).then(res => matchArr.push(res));
                 }
             }
         }
 
-        match.map(sserv => 
+        // add new services to database
+        matchArr.map(matchService => 
         {
             let appointmentService = 
             {
-                'appointmentId': id,
-                'serviceId': sserv.id
+                'appointmentId': appointment.id,
+                'serviceId': matchService.id
             }
             newAppointmentService(appointmentService);
         });
 
+        // updated appointment details based on updatedApp object
+        await updateAppointment(updatedApp);
+
+        // navigate back to see all appointments view
         navigate('/appointments');
     }
-
-    // console.log('appointment', appointment);
-    console.log('checkedS', checkedState);
 
     return (appointment.id === null ? null :
     <div className="container">
@@ -171,7 +170,7 @@ export const EditAppointment = () => {
                                 key={s.id}
                                 value={s.id}
                                 name={s.name}
-                                onClick={(e) => {const copy = {...updatedApp}; copy.stylistId = e.target.value; setUpdatedApp(copy)}}
+                                onClick={(e) => {const copy = {...updatedApp}; copy.stylistId = e.target.value * 1; setUpdatedApp(copy)}}
                                 >{s.name}
                             </DropdownItem>)}
                         </DropdownMenu>
@@ -218,7 +217,7 @@ export const EditAppointment = () => {
                 ? <Button
                     className="header-button"
                     size="md"
-                    // onClick={(e) => handleSubmit()}
+                    onClick={(e) => handleSubmitForm()}
                     >Save</Button>
                 : <Button
                     disabled

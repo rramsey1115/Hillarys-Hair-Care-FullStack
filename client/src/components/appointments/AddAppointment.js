@@ -89,7 +89,7 @@ export const AddAppointment = () => {
         const newApointmentObj = {
             "customerId": customerId,
             "stylistId" : stylistId,
-            "date": appDate
+            "date": appDate.toISOString()
         }
 
         await newAppointment(newApointmentObj).then(res => id = res.id);
@@ -169,6 +169,7 @@ export const AddAppointment = () => {
                         filterTime={filterTime}
                         selected={appDate}
                         onChange={date => setAppDate(date)}
+                        utcOffset={0}
                         />
                 </fieldset>
                 <fieldset>

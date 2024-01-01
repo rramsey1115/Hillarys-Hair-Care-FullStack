@@ -14,6 +14,14 @@ export const newAppointment = (appointmentObj) => {
       }).then((res) => res.json());
 }
 
+export const updateAppointment = (updatedApp) => {
+    return fetch(`/api/appointments`, { 
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(updatedApp),
+    });
+}
+
 export const newAppointmentService = (aps) => {
     return fetch(`/api/appointmentservices`, {
         method: "POST",

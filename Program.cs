@@ -465,7 +465,7 @@ app.MapPost("/api/appointments", (HillarysHairCareDbContext db, Appointment appo
 });
 
 // Update/PUT appointment details
-app.MapPut("/api/appointments/{id}", (HillarysHairCareDbContext db, Appointment appointment) => {
+app.MapPut("/api/appointments", (HillarysHairCareDbContext db, Appointment appointment) => {
     try
     {
         Appointment foundA = db.Appointments.SingleOrDefault(a => a.Id == appointment.Id);
