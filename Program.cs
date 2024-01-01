@@ -489,6 +489,26 @@ app.MapPut("/api/appointments", (HillarysHairCareDbContext db, Appointment appoi
     }
 });
 
+// DELETE apointment by id
+app.MapDelete("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        var foundApp = db.Appointments.SingleOrDefault(a => a.Id == id);
+        if (foundApp == null)
+        {
+            return Results.NotFound("No matching Id found");
+        }
+
+        db.Appointments.Remove(foundApp);
+        db.SaveChanges();
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Not found: {ex}");
+    }
+});
+
 // Get all Services
 app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
 {

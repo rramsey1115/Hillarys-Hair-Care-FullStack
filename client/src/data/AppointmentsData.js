@@ -23,6 +23,12 @@ export const updateAppointment = (updatedApp) => {
     });
 }
 
+export const deleteAppointment = (id) => {
+    return fetch(`/api/appointments/${id}`, {
+        method: "DELETE"
+    });
+}
+
 export const newAppointmentService = (aps) => {
     return fetch(`/api/appointmentservices`, {
         method: "POST",

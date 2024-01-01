@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { deleteAppServices, getApointmentById, newAppointmentService, updateAppointment } from "../../data/AppointmentsData";
+import { deleteAppServices, deleteAppointment, getApointmentById, newAppointmentService, updateAppointment } from "../../data/AppointmentsData";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -228,6 +228,8 @@ export const EditAppointment = () => {
                     className="cancel-button"
                     size="md"
                     color="danger"
+                    value={appointmentId * 1}
+                    onClick={(e) => deleteAppointment(e.target.value).then(navigate('/appointments'))}
                     >Cancel Appointment
                 </Button>
             </div>
