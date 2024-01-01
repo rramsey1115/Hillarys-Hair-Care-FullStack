@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Label } from "reactstrap";
-import { getActiveStylists, getAllStylists } from "../../data/StylistsData";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Label } from "reactstrap";
+import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices } from "../../data/ServicesData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -40,7 +40,6 @@ export const EditAppointment = () => {
             "date": appointment?.date
             }
         );
-        // getDate(appointment?.date);
     }, [appointment])
 
     const getAndSetStylists = () => {
