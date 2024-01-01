@@ -224,6 +224,12 @@ export const EditAppointment = () => {
                     size="md"
                     >Save</Button>
                 }
+                <Button 
+                    className="cancel-button"
+                    size="md"
+                    color="danger"
+                    >Cancel Appointment
+                </Button>
             </div>
         </div>
     </div>)
