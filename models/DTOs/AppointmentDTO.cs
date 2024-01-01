@@ -8,7 +8,7 @@ public class AppointmentDTO
     public StylistDTO Stylist { get; set; }
     public int CustomerId { get; set; }
     public CustomerDTO Customer { get; set; }
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; }
     public List<AppointmentServiceDTO> AppointmentServices { get; set; }
     public decimal? TotalCost
     {

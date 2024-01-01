@@ -32,17 +32,29 @@ code {
 }
 
 .header-button {
-  width: 100px;
+  width: 120px;
   background-image: linear-gradient(to bottom right, rgba(175, 55, 175, 0.69), var(--purle));
   box-shadow: 0px 0px 8px gray;
   margin-right: 20px;
-  transition: ease-in-out .4s;
+  transition: ease-in-out .2s;
 }
 
 .header-button:hover {
   background-image: linear-gradient(to bottom right, rgba(197, 26, 197, 0.696), var(--purle));
+  filter: brightness(.8);
   box-shadow: 0px 0px 6px gray;
-  transition: ease-in-out .4s;
+  transition: ease-in-out .2s;
+}
+
+.cancel-button {
+  box-shadow: 0px 0px 8px gray;
+  margin-right: 20px;
+  transition: ease-in-out .2s;
+}
+
+.cancel-button:hover {
+  box-shadow: 0px 0px 6px gray;
+  transition: ease-in-out .2s;
 }
 
 .main {

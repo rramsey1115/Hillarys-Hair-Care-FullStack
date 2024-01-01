@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
-import { getActiveStylists, getAllStylists } from "../../data/StylistsData";
+import { getActiveStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -21,7 +21,6 @@ export const AddAppointment = () => {
     const [stylists, setStylists] = useState([]);
     const [checkedState, setCheckedState] = useState([]);
     const [total, setTotal] = useState(25);
-    const [selectedServ, setSelectedServ] = useState([]);
 
     useEffect(() => {
         getAndSetCustomers();
@@ -86,6 +85,7 @@ export const AddAppointment = () => {
 
     const handleSubmitForm = async () => {
         let id = 0;
+
         const newApointmentObj = {
             "customerId": customerId,
             "stylistId" : stylistId,

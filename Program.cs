@@ -241,6 +241,20 @@ app.MapGet("/api/customers/{id}", (HillarysHairCareDbContext db, int id) =>
     }
 });
 
+// Add/Post new Customer
+app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) => {
+    try
+    {
+        db.Customers.Add(customer);
+        db.SaveChanges();
+        return Results.Created($"/api/customers/{customer.Id}", customer);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
+
 // Get Customer appointments by customerId
 app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int id) =>
 {
@@ -286,20 +300,6 @@ app.MapGet("/api/appointments/customer/{id}", (HillarysHairCareDbContext db, int
     catch (Exception ex)
     {
         return Results.NotFound(ex);
-    }
-});
-
-// Add/Post new Customer
-app.MapPost("/api/customers", (HillarysHairCareDbContext db, Customer customer) => {
-    try
-    {
-        db.Customers.Add(customer);
-        db.SaveChanges();
-        return Results.Created($"/api/customers/{customer.Id}", customer);
-    }
-    catch (Exception ex)
-    {
-        return Results.BadRequest($"Bad data submitted: {ex}");
     }
 });
 
@@ -464,6 +464,51 @@ app.MapPost("/api/appointments", (HillarysHairCareDbContext db, Appointment appo
     }
 });
 
+// Update/PUT appointment details
+app.MapPut("/api/appointments", (HillarysHairCareDbContext db, Appointment appointment) => {
+    try
+    {
+        Appointment foundA = db.Appointments.SingleOrDefault(a => a.Id == appointment.Id);
+
+        if (foundA == null)
+        {
+            return Results.NotFound("No matching appointment id found");
+        }
+
+        foundA.StylistId = appointment.StylistId;
+        foundA.Date = appointment.Date;
+        
+        db.SaveChanges();
+        
+        return Results.NoContent();
+
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad request: {ex} ");
+    }
+});
+
+// DELETE apointment by id
+app.MapDelete("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        var foundApp = db.Appointments.SingleOrDefault(a => a.Id == id);
+        if (foundApp == null)
+        {
+            return Results.NotFound("No matching Id found");
+        }
+
+        db.Appointments.Remove(foundApp);
+        db.SaveChanges();
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Not found: {ex}");
+    }
+});
+
 // Get all Services
 app.MapGet("/api/services", (HillarysHairCareDbContext db) =>
 {
@@ -553,6 +598,27 @@ app.MapGet("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int i
     catch (Exception ex)
     {
         return Results.NotFound($"Not found: {ex}");
+    }
+});
+
+// Delete appointmentService by AppointmentId
+app.MapDelete("/api/appointmentservices/{id}", (HillarysHairCareDbContext db, int id) => {
+    try
+    {
+        var foundAppS = db.AppointmentServices.Where(s => s.AppointmentId == id);
+        if (foundAppS == null)
+        {
+        return Results.NotFound($"No appointments found with appointmentId {id}");
+        }
+
+        db.AppointmentServices.RemoveRange(foundAppS);
+        db.SaveChanges();
+        return Results.NoContent();
+
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"No results found: {ex}");
     }
 });
 

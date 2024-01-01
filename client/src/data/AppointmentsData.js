@@ -7,11 +7,26 @@ export const getApointmentById = (id) => {
 }
 
 export const newAppointment = (appointmentObj) => {
+    console.log('appointmentObj', appointmentObj);
     return fetch(`/api/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointmentObj),
       }).then((res) => res.json());
+}
+
+export const updateAppointment = (updatedApp) => {
+    return fetch(`/api/appointments`, { 
+        method: "PUT",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(updatedApp),
+    });
+}
+
+export const deleteAppointment = (id) => {
+    return fetch(`/api/appointments/${id}`, {
+        method: "DELETE"
+    });
 }
 
 export const newAppointmentService = (aps) => {
@@ -20,4 +35,10 @@ export const newAppointmentService = (aps) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(aps),
       }).then((res) => res.json());
+}
+
+export const deleteAppServices = (appId) => {
+    return fetch(`/api/appointmentservices/${appId}`, {
+        method: "DELETE"
+    });
 }

@@ -32,8 +32,8 @@ namespace HillarysHairCare.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("StylistId")
                         .HasColumnType("integer");
@@ -51,70 +51,70 @@ namespace HillarysHairCare.Migrations
                         {
                             Id = 1,
                             CustomerId = 1,
-                            Date = new DateTime(2024, 1, 4, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 1, 4, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 2
                         },
                         new
                         {
                             Id = 2,
                             CustomerId = 3,
-                            Date = new DateTime(2024, 1, 15, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 1, 15, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 1
                         },
                         new
                         {
                             Id = 3,
                             CustomerId = 5,
-                            Date = new DateTime(2024, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 3
                         },
                         new
                         {
                             Id = 4,
                             CustomerId = 2,
-                            Date = new DateTime(2024, 1, 16, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 1, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 4
                         },
                         new
                         {
                             Id = 5,
                             CustomerId = 8,
-                            Date = new DateTime(2024, 2, 5, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 2, 5, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 1
                         },
                         new
                         {
                             Id = 6,
                             CustomerId = 10,
-                            Date = new DateTime(2024, 2, 18, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 2, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 1
                         },
                         new
                         {
                             Id = 7,
                             CustomerId = 6,
-                            Date = new DateTime(2024, 1, 3, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 1, 3, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 3
                         },
                         new
                         {
                             Id = 8,
                             CustomerId = 4,
-                            Date = new DateTime(2024, 2, 19, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 2, 19, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 2
                         },
                         new
                         {
                             Id = 9,
                             CustomerId = 7,
-                            Date = new DateTime(2024, 2, 27, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 2, 27, 17, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 4
                         },
                         new
                         {
                             Id = 10,
                             CustomerId = 10,
-                            Date = new DateTime(2024, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTimeOffset(new DateTime(2024, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)),
                             StylistId = 1
                         });
                 });

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
+import { deleteAppServices, deleteAppointment, getApointmentById, newAppointmentService, updateAppointment } from "../../data/AppointmentsData";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
-import { getAllServices } from "../../data/ServicesData";
+import { getAllServices, getServiceById } from "../../data/ServicesData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,7 +16,6 @@ export const EditAppointment = () => {
     const [allServices, setAllServices] = useState([]);
     const [allStylists, setAllStylists] = useState([]);
     const [checkedState, setCheckedState] = useState([]);
-    const [updatedServices, setUpdatedServices] = useState([]);
     const [total, setTotal] = useState(25);
     const [updatedApp, setUpdatedApp] = useState({"id": 0, "customerId": 0, "stylistId": 0, "date": ""});
     
@@ -47,7 +46,6 @@ export const EditAppointment = () => {
         setUpdatedApp(
             {
             "id": parseInt(appointmentId),
-            "customerId": appointment?.customerId,
             "stylistId": appointment?.stylistId,
             "date": appointment?.date
             }
@@ -61,10 +59,10 @@ export const EditAppointment = () => {
             let arr = [...checkedState];
             for (let appS of appServices)
                 {
-                    arr[appS.serviceId -1] = true;
-                    console.log('arr', arr);
+                    arr[appS.serviceId - 1] = true;
                 }
         setCheckedState(arr);
+        getAndSetTotal(arr);
         }
     }
 
@@ -76,6 +74,20 @@ export const EditAppointment = () => {
     // services for checkboxes
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
+    }
+
+    const getAndSetTotal = (arr) => {
+        const totalPrice = arr.reduce(
+            (sum, currentState, index) => {
+              if (currentState === true) 
+              {
+                return sum + allServices[index].price;
+              }
+              return sum;
+            },
+            0
+          );
+          setTotal(totalPrice + 25);
     }
 
     // controls stylists dropdown
@@ -103,21 +115,42 @@ export const EditAppointment = () => {
 
         setCheckedState(updatedCheckedState);
     
-        const totalPrice = updatedCheckedState.reduce(
-          (sum, currentState, index) => {
-            if (currentState === true) 
-            {
-              return sum + allServices[index].price;
-            }
-            return sum;
-          },
-          0
-        );
-        setTotal(totalPrice + 25);
+        getAndSetTotal(updatedCheckedState);
     };
 
-    // console.log('appointment', appointment);
-    console.log('checkedS', checkedState);
+    const handleSubmitForm = async () => {
+        // delete previous services for this appointment
+        await deleteAppServices(appointment.id * 1);
+
+        // find new services based on checkedState booleans
+        let matchArr = [];
+        for (let i = 0; i < checkedState.length; i++) {
+            if (checkedState[i] === true) {
+                let int = checkedState.indexOf(true, i);
+                // Check if the index is found and call the getServiceById method
+                if (int !== -1) {
+                    await getServiceById(int + 1).then(res => matchArr.push(res));
+                }
+            }
+        }
+
+        // add new services to database
+        matchArr.map(matchService => 
+        {
+            let appointmentService = 
+            {
+                'appointmentId': appointment.id,
+                'serviceId': matchService.id
+            }
+            newAppointmentService(appointmentService);
+        });
+
+        // updated appointment details based on updatedApp object
+        await updateAppointment(updatedApp);
+
+        // navigate back to see all appointments view
+        navigate('/appointments');
+    }
 
     return (appointment.id === null ? null :
     <div className="container">
@@ -136,7 +169,7 @@ export const EditAppointment = () => {
                                 key={s.id}
                                 value={s.id}
                                 name={s.name}
-                                onClick={(e) => {const copy = {...updatedApp}; copy.stylistId = e.target.value; setUpdatedApp(copy)}}
+                                onClick={(e) => {const copy = {...updatedApp}; copy.stylistId = e.target.value * 1; setUpdatedApp(copy)}}
                                 >{s.name}
                             </DropdownItem>)}
                         </DropdownMenu>
@@ -161,16 +194,45 @@ export const EditAppointment = () => {
                 </fieldset>
                 <fieldset>
                     <label /><h5>Select Services</h5>
-                    {allServices.map((service, index) => <div key={service.id}>
+                    {checkedState.includes(true) ? allServices.map((service, index) => {
+                    return (
+                    <div key={service.id}>
                         <Input type="checkbox"
                             id={`custom-checkbox-${index}`}
+                            defaultChecked={checkedState[index] ? true : false}
                             name={service.name}
                             value={service.id}
                             onChange={(e) => handleOnChange(index, e.target.value)}
                             />  {service.name} - ${service.price}
-                    </div>)}
+                    </div>)}) : null }
+                    <div className="price-container" style={{marginTop:8}}>
+                        <h5>Total Price: ${total}.00</h5>
+                    </div>
                 </fieldset>
             </Form>
+            <div className="button-container">
+                {
+                total > 25
+                ? <Button
+                    className="header-button"
+                    size="md"
+                    onClick={(e) => handleSubmitForm()}
+                    >Save</Button>
+                : <Button
+                    disabled
+                    className="header-button"
+                    size="md"
+                    >Save</Button>
+                }
+                <Button 
+                    className="cancel-button"
+                    size="md"
+                    color="danger"
+                    value={appointmentId * 1}
+                    onClick={(e) => deleteAppointment(e.target.value).then(navigate('/appointments'))}
+                    >Cancel Appointment
+                </Button>
+            </div>
         </div>
     </div>)
 }
