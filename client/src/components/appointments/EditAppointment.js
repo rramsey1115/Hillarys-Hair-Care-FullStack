@@ -60,7 +60,6 @@ export const EditAppointment = () => {
             for (let appS of appServices)
                 {
                     arr[appS.serviceId - 1] = true;
-                    console.log('arr', arr);
                 }
         setCheckedState(arr);
         getAndSetTotal(arr);
