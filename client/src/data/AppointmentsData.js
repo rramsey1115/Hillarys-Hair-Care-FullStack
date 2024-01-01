@@ -7,6 +7,7 @@ export const getApointmentById = (id) => {
 }
 
 export const newAppointment = (appointmentObj) => {
+    console.log('appointmentObj', appointmentObj);
     return fetch(`/api/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
