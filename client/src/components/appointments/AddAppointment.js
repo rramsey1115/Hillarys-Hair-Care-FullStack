@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Input } from "reactstrap"
 import { getAllCustomers } from "../../data/CustomersData";
-import { getAllStylists } from "../../data/StylistsData";
+import { getActiveStylists, getAllStylists } from "../../data/StylistsData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getAllServices, getServiceById } from "../../data/ServicesData";
@@ -38,12 +38,13 @@ export const AddAppointment = () => {
     }
 
     const getAndSetStylists = () => {
-        getAllStylists().then(data => setStylists(data));
+        getActiveStylists().then(data => setStylists(data));
     }
 
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
     }
+
     const navigate = useNavigate();
 
     const toggleCustomers = () => setCustomersOpen((prevState) => !prevState);
@@ -126,9 +127,10 @@ export const AddAppointment = () => {
         <div className="main">
             <h3>Create A New Appointment</h3>
             <form>
-                <fieldset>
-                    <label /><h5>Select Customer</h5>
-                        <Dropdown isOpen={customersOpen} toggle={toggleCustomers} direction="down">
+                <div className="dropdown-container">
+                    <fieldset className="dropdown-left">
+                        <label /><h5>Select Customer</h5>
+                        <Dropdown id="dropdown" isOpen={customersOpen} toggle={toggleCustomers} direction="down">
                             <DropdownToggle caret size="md">{customerName}</DropdownToggle>
                             <DropdownMenu color="dark">
                                 {customers.map(c => <DropdownItem 
@@ -140,24 +142,25 @@ export const AddAppointment = () => {
                                 </DropdownItem>)}
                             </DropdownMenu>
                         </Dropdown>
-                </fieldset>
+                    </fieldset>
+                    <fieldset className="dropdown-right">
+                        <label /><h5>Select Stylist</h5>
+                        <Dropdown id="dropdown" isOpen={stylistsOpen} toggle={toggleStylists} direction="down">
+                            <DropdownToggle caret size="md">{stylistName}</DropdownToggle>
+                            <DropdownMenu color="dark">
+                                {stylists.map(s => <DropdownItem 
+                                    key={s.id} 
+                                    value={s.id}
+                                    name={s.name}
+                                    onClick={(e) => {setStylistId(e.target.value * 1); setStylistName(e.target.name)}}
+                                    >{s.name}
+                                </DropdownItem>)}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </fieldset>
+                </div>                       
                 <fieldset>
-                    <label /><h5>Select Stylist</h5>
-                    <Dropdown isOpen={stylistsOpen} toggle={toggleStylists} direction="down">
-                        <DropdownToggle caret size="md">{stylistName}</DropdownToggle>
-                        <DropdownMenu color="dark">
-                            {stylists.map(s => <DropdownItem 
-                                key={s.id} 
-                                value={s.id}
-                                name={s.name}
-                                onClick={(e) => {setStylistId(e.target.value * 1);setStylistName(e.target.name)}}
-                                >{s.name}
-                            </DropdownItem>)}
-                        </DropdownMenu>
-                    </Dropdown>                       
-                </fieldset>
-                <fieldset>
-                    <h5>Select Date and Time</h5>
+                    <label /><h5>Select Date and Time</h5>
                     <DatePicker 
                         showIcon
                         showTimeSelect
@@ -169,18 +172,18 @@ export const AddAppointment = () => {
                         />
                 </fieldset>
                 <fieldset>
-                    <h5>Select Services</h5>
+                    <label /><h5>Select Services</h5>
                     {allServices.map((service, index) => <div key={service.id}>
                         <Input type="checkbox"
                             id={`custom-checkbox-${index}`}
                             name={service.name}
                             value={service.id}
                             onChange={(e) => handleOnChange(index, e.target.value)}
-                            /> {service.name} - ${service.price}
+                            />  {service.name} - ${service.price}
                     </div>)}
                 </fieldset>
             </form>
-            <div className="price-container">
+            <div className="price-container" style={{marginTop:8}}>
                 <h5>Total Price: ${total}.00</h5>
             </div>
             <div className="button-container">

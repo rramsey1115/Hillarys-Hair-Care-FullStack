@@ -58,5 +58,17 @@ textarea {
 }
 
 fieldset {
-  margin-bottom: 10px;
+  margin-top: 8px;
+}
+
+.dropdown-container {
+  display: flex;
+}
+
+.dropdown-left {
+  width: 200px;
+}
+
+.dropdown-right {
+  width: 200px;
 }

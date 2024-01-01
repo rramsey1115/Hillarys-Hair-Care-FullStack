@@ -47,6 +47,21 @@ app.MapGet("/api/stylists", (HillarysHairCareDbContext db) =>
     }).ToList();
 });
 
+// GET all available stylists
+app.MapGet("/api/stylists/active", (HillarysHairCareDbContext db) =>
+{   
+    var matches = db.Stylists.OrderBy(s => s.Id).Include(s => s.Appointments).Where(s => s.IsActive == true);
+    return matches.Select(s => new StylistDTO
+    {
+        Id = s.Id,
+        Name = s.Name,
+        Email = s.Email,
+        ImgUrl = s.ImgUrl,
+        IsActive = s.IsActive,
+        Bio = s.Bio
+    }).ToList();
+});
+
 // Get stylist by id
 app.MapGet("/api/stylists/{id}", (HillarysHairCareDbContext db, int id) =>
 {
@@ -418,6 +433,7 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) =>
             AppointmentServices = foundA.AppointmentServices.Select(apps => new AppointmentServiceDTO
             {
                 Id = apps.Id,
+                AppointmentId = apps.AppointmentId,
                 ServiceId = apps.ServiceId,
                 Service = new ServiceDTO
                 {
