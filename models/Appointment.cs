@@ -11,7 +11,7 @@ public class Appointment
     [Required]
     public int CustomerId { get; set; }
     public Customer Customer { get; set; }
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; }
     public List<AppointmentService> AppointmentServices { get; set; }
     public decimal? TotalCost
     {

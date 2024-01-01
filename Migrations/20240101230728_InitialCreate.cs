@@ -63,7 +63,7 @@ namespace HillarysHairCare.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     StylistId = table.Column<int>(type: "integer", nullable: false),
                     CustomerId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,16 +154,16 @@ namespace HillarysHairCare.Migrations
                 columns: new[] { "Id", "CustomerId", "Date", "StylistId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 1, 4, 10, 0, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 2, 3, new DateTime(2024, 1, 15, 13, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 3, 5, new DateTime(2024, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), 3 },
-                    { 4, 2, new DateTime(2024, 1, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), 4 },
-                    { 5, 8, new DateTime(2024, 2, 5, 11, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 6, 10, new DateTime(2024, 2, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 7, 6, new DateTime(2024, 1, 3, 13, 0, 0, 0, DateTimeKind.Unspecified), 3 },
-                    { 8, 4, new DateTime(2024, 2, 19, 15, 0, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 9, 7, new DateTime(2024, 2, 27, 17, 0, 0, 0, DateTimeKind.Unspecified), 4 },
-                    { 10, 10, new DateTime(2024, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, 1, new DateTimeOffset(new DateTime(2024, 1, 4, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 2 },
+                    { 2, 3, new DateTimeOffset(new DateTime(2024, 1, 15, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 1 },
+                    { 3, 5, new DateTimeOffset(new DateTime(2024, 2, 22, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 3 },
+                    { 4, 2, new DateTimeOffset(new DateTime(2024, 1, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 4 },
+                    { 5, 8, new DateTimeOffset(new DateTime(2024, 2, 5, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 1 },
+                    { 6, 10, new DateTimeOffset(new DateTime(2024, 2, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 1 },
+                    { 7, 6, new DateTimeOffset(new DateTime(2024, 1, 3, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 3 },
+                    { 8, 4, new DateTimeOffset(new DateTime(2024, 2, 19, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 2 },
+                    { 9, 7, new DateTimeOffset(new DateTime(2024, 2, 27, 17, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 4 },
+                    { 10, 10, new DateTimeOffset(new DateTime(2024, 1, 20, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -6, 0, 0, 0)), 1 }
                 });
 
             migrationBuilder.InsertData(
