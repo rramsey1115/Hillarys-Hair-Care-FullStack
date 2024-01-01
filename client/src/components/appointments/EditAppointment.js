@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Label } from "reactstrap";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices } from "../../data/ServicesData";
 import DatePicker from "react-datepicker";
@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const EditAppointment = () => {
     const appointmentId = useParams().id;
+    const [appServices, setAppServices] = useState([]);
     const [stylistsOpen, setStylistsOpen] = useState(false);
     const [appointment, setAppointment] = useState({});
     const [allServices, setAllServices] = useState([]);
@@ -40,6 +41,14 @@ export const EditAppointment = () => {
             "date": appointment?.date
             }
         );
+        let updated = [];
+        for(let s in appointment.appointmentServices)
+        {
+            updated = checkedState.map((item, index) =>
+            index === s.serviceId ? !item : item
+            );
+        }
+        setCheckedState(updated)
     }, [appointment])
 
     const getAndSetStylists = () => {
@@ -128,6 +137,17 @@ export const EditAppointment = () => {
                             setUpdatedApp(copy)}}
                     />
                     : null }  
+                </fieldset>
+                <fieldset>
+                    <label /><h5>Select Services</h5>
+                    {allServices.map((service, index) => <div key={service.id}>
+                        <Input type="checkbox"
+                            id={`custom-checkbox-${index}`}
+                            name={service.name}
+                            value={service.id}
+                            onChange={(e) => handleOnChange(index, e.target.value)}
+                            />  {service.name} - ${service.price}
+                    </div>)}
                 </fieldset>
             </Form>
         </div>

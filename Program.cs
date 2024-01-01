@@ -433,6 +433,7 @@ app.MapGet("/api/appointments/{id}", (HillarysHairCareDbContext db, int id) =>
             AppointmentServices = foundA.AppointmentServices.Select(apps => new AppointmentServiceDTO
             {
                 Id = apps.Id,
+                AppointmentId = apps.AppointmentId,
                 ServiceId = apps.ServiceId,
                 Service = new ServiceDTO
                 {
