@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
+import { getApointmentById, newAppointmentService } from "../../data/AppointmentsData";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Input, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
-import { getAllServices } from "../../data/ServicesData";
+import { getAllServices, getServiceById } from "../../data/ServicesData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -61,10 +61,11 @@ export const EditAppointment = () => {
             let arr = [...checkedState];
             for (let appS of appServices)
                 {
-                    arr[appS.serviceId -1] = true;
+                    arr[appS.serviceId - 1] = true;
                     console.log('arr', arr);
                 }
         setCheckedState(arr);
+        getAndSetTotal(arr);
         }
     }
 
@@ -76,6 +77,20 @@ export const EditAppointment = () => {
     // services for checkboxes
     const getAndSetServices = async () => {
         await getAllServices().then(data => setAllServices(data));
+    }
+
+    const getAndSetTotal = (arr) => {
+        const totalPrice = arr.reduce(
+            (sum, currentState, index) => {
+              if (currentState === true) 
+              {
+                return sum + allServices[index].price;
+              }
+              return sum;
+            },
+            0
+          );
+          setTotal(totalPrice + 25);
     }
 
     // controls stylists dropdown
@@ -103,18 +118,43 @@ export const EditAppointment = () => {
 
         setCheckedState(updatedCheckedState);
     
-        const totalPrice = updatedCheckedState.reduce(
-          (sum, currentState, index) => {
-            if (currentState === true) 
-            {
-              return sum + allServices[index].price;
-            }
-            return sum;
-          },
-          0
-        );
-        setTotal(totalPrice + 25);
+        getAndSetTotal(updatedCheckedState);
     };
+
+    const handleSubmitForm = async () => {
+        let id = 0;
+        const newApointmentObj = {
+            "customerId": customerId,
+            "stylistId" : stylistId,
+            "date": appDate
+        }
+
+        await updateApp(newApointmentObj).then(res => id = res.id);
+
+        let match = [];
+
+        for (let i = 0; i < checkedState.length; i++) {
+            if (checkedState[i] === true) {
+                let int = checkedState.indexOf(true, i);
+                // Check if the index is found and call the getServiceById method
+                if (int !== -1) {
+                    await getServiceById(int + 1).then(res => match.push(res));
+                }
+            }
+        }
+
+        match.map(sserv => 
+        {
+            let appointmentService = 
+            {
+                'appointmentId': id,
+                'serviceId': sserv.id
+            }
+            newAppointmentService(appointmentService);
+        });
+
+        navigate('/appointments');
+    }
 
     // console.log('appointment', appointment);
     console.log('checkedS', checkedState);
@@ -161,16 +201,37 @@ export const EditAppointment = () => {
                 </fieldset>
                 <fieldset>
                     <label /><h5>Select Services</h5>
-                    {allServices.map((service, index) => <div key={service.id}>
+                    {checkedState.includes(true) ? allServices.map((service, index) => {
+                    return (
+                    <div key={service.id}>
                         <Input type="checkbox"
                             id={`custom-checkbox-${index}`}
+                            defaultChecked={checkedState[index] ? true : false}
                             name={service.name}
                             value={service.id}
                             onChange={(e) => handleOnChange(index, e.target.value)}
                             />  {service.name} - ${service.price}
-                    </div>)}
+                    </div>)}) : null }
+                    <div className="price-container" style={{marginTop:8}}>
+                        <h5>Total Price: ${total}.00</h5>
+                    </div>
                 </fieldset>
             </Form>
+            <div className="button-container">
+                {
+                total > 25
+                ? <Button
+                    className="header-button"
+                    size="md"
+                    // onClick={(e) => handleSubmit()}
+                    >Save</Button>
+                : <Button
+                    disabled
+                    className="header-button"
+                    size="md"
+                    >Save</Button>
+                }
+            </div>
         </div>
     </div>)
 }

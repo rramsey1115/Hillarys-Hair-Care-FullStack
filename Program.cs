@@ -160,6 +160,11 @@ app.MapPut("/api/stylists", (HillarysHairCareDbContext db, Stylist updatedStylis
     }
 });
 
+// Update/PUT appointment details
+app.MapPut("/api/appointments/{id}", (HillarysHairCareDbContext db, Appointment appointment) => {
+    
+});
+
 // Add/Post new stylist
 app.MapPost("/api/stylists", (HillarysHairCareDbContext db, Stylist stylist) => {
     try
