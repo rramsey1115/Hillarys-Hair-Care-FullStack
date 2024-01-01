@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getApointmentById } from "../../data/AppointmentsData";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Label } from "reactstrap";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, Label } from "reactstrap";
 import { getActiveStylists } from "../../data/StylistsData";
 import { getAllServices } from "../../data/ServicesData";
 import DatePicker from "react-datepicker";
@@ -97,7 +97,7 @@ export const EditAppointment = () => {
         <div className="main">
             <h5>Appointment Id: {appointment?.id}</h5>
             <Form>
-                <FormGroup tag="fieldset">
+                <fieldset>
                     <Label /><h5>Stylist</h5>
                     <Dropdown isOpen={stylistsOpen} toggle={toggleStylists} direction="down">
                         <DropdownToggle caret size="md">{appointment.stylist?.name}</DropdownToggle>
@@ -111,8 +111,8 @@ export const EditAppointment = () => {
                             </DropdownItem>)}
                         </DropdownMenu>
                     </Dropdown>  
-                </FormGroup>
-                <FormGroup tag="fieldset">
+                </fieldset>
+                <fieldset>
                     <Label /><h5>Date</h5>
                     {updatedApp.date ?
                     <DatePicker
@@ -128,7 +128,7 @@ export const EditAppointment = () => {
                             setUpdatedApp(copy)}}
                     />
                     : null }  
-                </FormGroup>
+                </fieldset>
             </Form>
         </div>
     </div>)
