@@ -1,7 +1,6 @@
 using System.Data;
 using HillarysHairCare.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -76,6 +76,7 @@ export const EditAppointment = () => {
         await getAllServices().then(data => setAllServices(data));
     }
 
+    // total price to display as user makes services selections
     const getAndSetTotal = (arr) => {
         const totalPrice = arr.reduce(
             (sum, currentState, index) => {

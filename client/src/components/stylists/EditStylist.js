@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { editStylist, getStylistById } from "../../data/StylistsData";
 import { useEffect, useState } from "react";
-import { Button, Form, FormGroup, Input, InputGroup, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 export const EditStylist = () => {
     const id = useParams().id;

@@ -115,7 +115,6 @@ export const AddAppointment = () => {
             }
             newAppointmentService(appointmentService);
         });
-
         navigate('/appointments');
     }
 

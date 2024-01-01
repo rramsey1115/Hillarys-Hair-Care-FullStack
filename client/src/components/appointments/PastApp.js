@@ -1,6 +1,5 @@
 import { Table } from "reactstrap"
 
-
 export const PastApp = ({allAppointments}) => {
     const pastApp = allAppointments?.filter(app => app.isPast === true)
 
