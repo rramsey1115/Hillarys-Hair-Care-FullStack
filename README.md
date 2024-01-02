@@ -2,6 +2,8 @@ Hillary's Hair Care
 ==============
 This project was for my server-side curriculum at Nashville Software School.
 
+The goal was to build my first full-stack application from zero, only receiving specifications from a "business owner", as opposed to specific list of requirements from the curriculum.
+
 This application is intended to be used by a hair salon needing to track and manipulate data related to customers, stylists, and appointments. 
 
 I was given "meeting notes" from the salon owner and had to create the Wireframe, Salon Branding, ERD, Project Board, Issue Tickets, Repository, and, of course, application all from scratch. 
