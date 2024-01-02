@@ -72,14 +72,24 @@ Edit Apointment
 
 Code Samples
 ============
+Form using dropdowns and react datePicker with filtered weedkays & times based on business hours
+-------------------------
 ![Hillarys - Code 1](https://github.com/rramsey1115/Hillarys-Hair-Care-FullStack/assets/139381892/224c4397-6f83-4e74-abca-41c12ce7309f)
 
+Customer details showing useState, useEffect, formatting of date and time
+----------------------
 ![Hillarys - Code 2](https://github.com/rramsey1115/Hillarys-Hair-Care-FullStack/assets/139381892/77e50d3e-4e26-4294-acb7-2a9206e27f26)
 
+Example of checkboxes in a form, as well as conditional buttons for submission
+----------------
 ![Hillarys - Code 3](https://github.com/rramsey1115/Hillarys-Hair-Care-FullStack/assets/139381892/342e6f06-e37c-4c7b-b150-7a7ec28cb922)
 
+Example of form showing imports, useParams, useState, useEffect, form handleSubmission function
+----------------------
 ![Hillarys - Code 4](https://github.com/rramsey1115/Hillarys-Hair-Care-FullStack/assets/139381892/9b8e627f-83b7-42c8-ac7c-6b06cf862576)
 
+Application Routing 
+--------------
 ![Hillarys - Code - Routing](https://github.com/rramsey1115/Hillarys-Hair-Care-FullStack/assets/139381892/e12bb124-d60d-4df7-a8b2-f03f17b78088)
 
 
